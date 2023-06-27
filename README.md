@@ -1,6 +1,6 @@
 # 📝 Projeto Clinica Médica
 
-Este é o arquivo README.md para o projeto React do sistema de gerenciamento de clínica médica, desenvolvido como trabalho da disciplina Programação Web do IFBA.
+Este é o arquivo README.md para o projeto React do sistema de gerenciamento de clínica médica, desenvolvido como trabalho da disciplina Programação Web do IFBA. Você pode acessar o projeto [aqui](https://luizfelipetorres.github.io/pweb-clinica-medica-react/)
 
 ## 📜 Sobre o projeto
 
