@@ -57,7 +57,7 @@
 }
 
 .form-group .input-error {
-  outline: 1px solid ;
+  outline: 1px solid var(--error-color);
 }
 
 .form-group .error-message {
