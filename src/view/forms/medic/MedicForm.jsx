@@ -4,6 +4,8 @@ import AddressForm from "../general/AddressForm";
 import "../form.css";
 import Button from "../../../components/Button";
 import Footer from "../../layout/Footer";
+import { toast } from "react-toastify";
+
 export default () => {
   const {
     register,
@@ -141,9 +143,9 @@ export default () => {
       </div>
 
       <div className="form-group">
-        <Button text="Cancelar" onClick={() => alert("Cancelado")} />
+        <Button text="Cancelar" onClick={() => toast.info("Cancelado")} />
       </div>
-      <Footer/>
+      <Footer />
     </div>
   );
 };
