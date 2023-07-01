@@ -3,6 +3,7 @@ import { isEmail } from "validator";
 import AddressForm from "../general/AddressForm";
 import "../form.css";
 import Button from "../../../components/Button";
+import Footer from "../../layout/Footer";
 export default () => {
   const {
     register,
@@ -142,6 +143,7 @@ export default () => {
       <div className="form-group">
         <Button text="Cancelar" onClick={() => alert("Cancelado")} />
       </div>
+      <Footer/>
     </div>
   );
 };

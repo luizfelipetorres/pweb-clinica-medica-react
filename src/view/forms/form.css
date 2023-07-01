@@ -1,4 +1,4 @@
-@import url('../../style/variables.css');
+@import url("../../style/variables.css");
 
 .app-container {
   background: #fffafa;
@@ -33,7 +33,7 @@
 }
 
 .form-group h2 {
-  color: #0B3B60;
+  color: #0b3b60;
 }
 
 .form-group label {
