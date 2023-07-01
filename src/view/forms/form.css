@@ -1,3 +1,5 @@
+@import url('../../style/variables.css');
+
 .app-container {
   background: #fffafa;
   height: 100%;
@@ -55,11 +57,11 @@
 }
 
 .form-group .input-error {
-  outline: 1px solid rgb(255, 72, 72);
+  outline: 1px solid ;
 }
 
 .form-group .error-message {
-  color: rgb(255, 72, 72);
+  color: var(--error-color);
   font-size: 0.75rem;
   margin-top: 8px;
 }
@@ -75,22 +77,4 @@
   -moz-appearance: none;
   -webkit-appearance: none;
   appearance: none;
-}
-
-.form-group button {
-  border: none;
-  padding: 10px;
-  border-radius: 5px;
-  color: #eee;
-  background-color: #0B3B60;
-  font-weight: 500;
-  font-size: 1rem;
-  margin-top: 10px;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-  transition: all 500ms ease;
-}
-
-.form-group button:hover {
-  cursor: pointer;
-  background-color: #0f5992;
 }
