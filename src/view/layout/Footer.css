@@ -1,11 +1,15 @@
-@import url('../../style/variables.css');
+@import url('../../assets/style/variables.css');
 .Footer{
-    display: flex;
+    bottom: 0;
     margin-top: 20px;
     padding: 1rem;
     background-color: var(--primary-color);
     color: white;
     width: 100%;
+}
+
+.Footer .contents{
+    display: flex;
     justify-content: space-between;
 }
 
@@ -30,5 +34,4 @@
 .Footer a{
     text-decoration: bold underline;
     color: inherit;
-    
 }

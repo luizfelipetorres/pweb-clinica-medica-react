@@ -8,8 +8,6 @@ export default ({ register, errors }) => {
     <>
       <div className="form-group">
         <h2>Dados pessoais</h2>
-      </div>
-      <div className="form-group">
         <label>Nome completo</label>
         <input
           className={errors?.name && "input-error"}
@@ -20,9 +18,7 @@ export default ({ register, errors }) => {
         {errors?.name?.type === "required" && (
           <p className="error-message">Nome completo é obrigatório.</p>
         )}
-      </div>
 
-      <div className="form-group">
         <label>E-mail</label>
         <input
           className={errors?.email && "input-error"}
@@ -40,9 +36,7 @@ export default ({ register, errors }) => {
         {errors?.email?.type === "validate" && (
           <p className="error-message">Email inválido.</p>
         )}
-      </div>
 
-      <div className="form-group">
         <label>Telefone</label>
         <input
           className={errors?.email && "input-error"}

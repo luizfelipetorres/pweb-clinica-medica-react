@@ -1,17 +1,20 @@
-import './App.css';
 import React from 'react';
-import Home from './pages/home/Home'
-import Navbar from './components/Navbar';
-import MedicForm from './view/forms/medic/MedicForm';
-import { ToastContainer } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
-
+import { BrowserRouter } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import './App.css';
+import Routes from './Routes';
+import Footer from './view/layout/Footer';
+import Navbar from './view/layout/Navbar';
 export default () => {
   return (
     <React.Fragment className="App">
-      <ToastContainer />
-      <Navbar/>
-      <Home/>
+      <BrowserRouter>
+        <ToastContainer />
+        <Navbar />
+        <Routes />
+        <Footer />
+      </BrowserRouter>
     </React.Fragment>
   );
 }

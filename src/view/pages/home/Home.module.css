@@ -1,7 +1,8 @@
+@import url('../../../assets/style/variables.css');
+
 .Home {
     margin: 0;
     padding: 0;
-    height: 100vh;
     display: flex;
     align-items: center;
     justify-content: space-around;
@@ -13,7 +14,7 @@
 }
 
 .HomeRight {
-    color: #0b3b60;
+    color: var(--primary-color);
     flex-direction: column;
     align-content: center;
     align-items: center;
@@ -22,24 +23,29 @@
     height: auto;
 }
 
-.HomeRight div{
-    margin:30px;
-}
-
 .HomeMenu{
     display: flex;
     align-items: center;
     justify-content: space-around;
 }
 
-.HomeMenu div {
+.HomeMenu a{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: var(--primary-color);
+    margin:30px;
+}
+
+.HomeMenu a {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
 }
 
-.HomeMenu div:hover {
+.HomeMenu a:hover {
     transform: scale(1.1);
 }
 

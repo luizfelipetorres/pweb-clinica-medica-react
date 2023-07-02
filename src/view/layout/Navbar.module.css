@@ -1,6 +1,8 @@
+@import url('../../assets/style/variables.css');
+
 nav {
     height: 70px;
-    background: #0B3B60;
+    background: var(--primary-color);
     display: flex; 
     justify-content: space-between;
     align-items: center;
