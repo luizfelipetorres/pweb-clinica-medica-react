@@ -2,6 +2,9 @@ import { useForm } from "react-hook-form";
 import AddressForm from "../general/AddressForm";
 import "../form.css";
 import PersonalDataForm from "../general/PersonalDataForm";
+import Button from "../../../components/Button";
+import Footer from "../../layout/Footer";
+import { toast } from "react-toastify";
 
 export default () => {
   const {
@@ -85,12 +88,13 @@ export default () => {
       </div>
 
       <div className="form-group">
-        <button onClick={() => handleSubmit(onSubmit)()}>Salvar</button>
+        <Button text="Salvar" onClick={() => handleSubmit(onSubmit)()} />
       </div>
 
       <div className="form-group">
         <button onClick={() => alert("Cancelado")}>Cancelar</button>
       </div>
+      <Footer />
     </div>
   );
 };
