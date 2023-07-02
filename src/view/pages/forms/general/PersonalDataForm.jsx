@@ -7,7 +7,7 @@ import { isEmail, isMobilePhone } from "validator";
 
 import "../form.css";
 
-export default ({ register, errors, isUpdate }) => {
+export default ({ register, errors, isUpdate, data }) => {
   return (
     <>
       <h2>Dados pessoais</h2>
@@ -16,11 +16,12 @@ export default ({ register, errors, isUpdate }) => {
         <FormControl fullWidth>
           <TextField
             id="outlined-basic"
-            label="Nome completo"
+            label={isUpdate ? "" : "Nome completo"}
             variant="outlined"
             className={errors?.nome && "input-error"}
             type="text"
             placeholder="Digite seu nome completo..."
+            value={isUpdate ? data.nome : ""}
             {...register("nome", { required: true })} />
         </FormControl>
       </Box>
@@ -32,11 +33,13 @@ export default ({ register, errors, isUpdate }) => {
         <FormControl fullWidth>
           <TextField
             id="outlined-basic"
-            label="E-mail"
+            label={isUpdate ? "" : "E-mail"}
             variant="outlined"
             className={errors?.email && "input-error"}
             type="text"
             placeholder="Digite seu e-mail..."
+            value={isUpdate ? data.email : ""}
+            disabled={isUpdate}
             {...register("email", {
               required: true,
               validate: (value) => isEmail(value),
@@ -54,11 +57,12 @@ export default ({ register, errors, isUpdate }) => {
         <FormControl fullWidth>
           <TextField
             id="outlined-basic"
-            label="Telefone"
+            label={isUpdate ? "" : "Telefone"}
             variant="outlined"
             className={errors?.telefone && "input-error"}
             type="text"
             placeholder="Digite seu telefone..."
+            value={isUpdate ? data.telefone : ""}
             {...register("telefone", {
               required: true,
               validate: (value) => isMobilePhone(value, 'pt-BR')

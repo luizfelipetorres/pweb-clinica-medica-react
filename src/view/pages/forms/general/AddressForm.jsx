@@ -8,7 +8,9 @@ import TextField from '@mui/material/TextField';
 import Divider from '@mui/material/Divider';
 import "../form.css";
 
-export default ({ register, errors, isUpdate }) => {
+export default ({ register, errors, isUpdate, data }) => {
+
+  console.log(data.endereco);
 
   return (
     <>
@@ -18,11 +20,12 @@ export default ({ register, errors, isUpdate }) => {
         <FormControl fullWidth>
           <TextField
             id="outlined-basic"
-            label="Logradouro"
+            label={isUpdate ? "" : "Logradouro"}
             variant="outlined"
             className={errors?.logradouro && "input-error"}
             type="text"
             placeholder="Digite o logradouro..."
+            value={isUpdate ? data.endereco?.logradouro : ""}
             {...register("logradouro", { required: true })} />
         </FormControl>
       </Box>
@@ -34,11 +37,12 @@ export default ({ register, errors, isUpdate }) => {
         <FormControl fullWidth>
           <TextField
             id="outlined-basic"
-            label="Número"
+            label={isUpdate ? "" : "Número"}
             variant="outlined"
             className={errors?.numero && "input-error"}
             type="text"
             placeholder="Digite o número..."
+            value={isUpdate ? data.endereco?.numero : ""}
             {...register("numero", { required: true })} />
         </FormControl>
       </Box>
@@ -50,11 +54,12 @@ export default ({ register, errors, isUpdate }) => {
         <FormControl fullWidth>
           <TextField
             id="outlined-basic"
-            label="Complemento"
+            label={isUpdate ? "" : "Complemento"}
             variant="outlined"
-            className={errors?.numero && "input-error"}
+            className={errors?.complemento && "input-error"}
             type="text"
             placeholder="Digite o complemento..."
+            value={isUpdate ? data.endereco?.complemento : ""}
             {...register("complemento", { required: true })} />
         </FormControl>
       </Box>
@@ -66,11 +71,12 @@ export default ({ register, errors, isUpdate }) => {
         <FormControl fullWidth>
           <TextField
             id="outlined-basic"
-            label="Bairro"
+            label={isUpdate ? "" : "Bairro"}
             variant="outlined"
             className={errors?.bairro && "input-error"}
             type="text"
             placeholder="Digite o bairro..."
+            value={isUpdate ? data.endereco?.bairro : ""}
             {...register("bairro", { required: true })} />
         </FormControl>
       </Box>
@@ -82,11 +88,12 @@ export default ({ register, errors, isUpdate }) => {
         <FormControl fullWidth>
           <TextField
             id="outlined-basic"
-            label="Cidade"
+            label={isUpdate ? "" : "Cidade"}
             variant="outlined"
             className={errors?.cidade && "input-error"}
             type="text"
             placeholder="Digite o cidade..."
+            value={isUpdate ? data.endereco?.cidade : ""}
             {...register("cidade", { required: true })} />
         </FormControl>
       </Box>
@@ -102,7 +109,7 @@ export default ({ register, errors, isUpdate }) => {
             id="demo-simple-select"
             variant="outlined"
             className={errors?.uf && "input-error"}
-            defaultValue="0"
+            defaultValue={isUpdate ? data.endereco?.uf : "0"}
             {...register("uf", { validate: (value) => value !== "0" })}
           >
             <MenuItem value={"0"}>Selecione o estado...</MenuItem>
@@ -121,11 +128,12 @@ export default ({ register, errors, isUpdate }) => {
         <FormControl fullWidth>
           <TextField
             id="outlined-basic"
-            label="CEP"
+            label={isUpdate ? "" : "CEP"}
             variant="outlined"
             className={errors?.cep && "input-error"}
             type="text"
             placeholder="Digite o cep..."
+            value={isUpdate ? data.endereco?.cep : ""}
             {...register("cep", { required: true })} />
         </FormControl>
       </Box>

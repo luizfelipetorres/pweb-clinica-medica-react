@@ -1,4 +1,6 @@
 import * as React from 'react';
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
 import CleaningIcon from "@mui/icons-material/CleaningServices";
 import { Fab } from "@mui/material";
@@ -19,9 +21,11 @@ import { toast } from "react-toastify";
 import "./form.css";
 
 
-export default ({ isUpdated }) => {
+export default ({ isUpdate }) => {
 
-  
+  const { crm } = isUpdate ? useParams() : '';
+  const [dataInfo, setDataInfo] = useState({});
+  const history = isUpdate ? useNavigate() : '';
 
   const {
     register,
@@ -29,47 +33,108 @@ export default ({ isUpdated }) => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = async (data) => {
-    await Api.post("/medico", {
-      nome: data.nome,
-      email: data.email,
-      crm: data.crm,
-      especialidade: data.especialidade,
-      telefone: data.telefone,
-      endereco: {
-        logradouro: data.logradouro,
-        bairro: data.bairro,
-        cep: data.cep,
-        cidade: data.cidade,
-        uf: data.uf,
-        numero: data.numero,
-        complemento: data.complemento
+  useEffect(() => {
+
+    async function loadFilme() {
+      const response = await Api.get("/medico/" + crm)
+      
+      if (response.data.length === 0) {
+        history("/")
+        return
       }
-    })
-      .then(function (response) {
-        toast.success('Cadastro de ' + response.data.nome + ' realizado com sucesso!', {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
+
+      setDataInfo(response.data);
+    }
+
+    if(isUpdate) loadFilme();
+    
+  }, [])
+
+  const onSubmit = async (data) => {
+    if(!isUpdate){
+      await Api.post("/medico", {
+        nome: data.nome,
+        email: data.email,
+        crm: data.crm,
+        especialidade: data.especialidade,
+        telefone: data.telefone,
+        endereco: {
+          logradouro: data.logradouro,
+          bairro: data.bairro,
+          cep: data.cep,
+          cidade: data.cidade,
+          uf: data.uf,
+          numero: data.numero,
+          complemento: data.complemento
+        }
       })
-      .catch(function (error) {
-        toast.error(error, {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
+        .then(function (response) {
+          toast.success('Cadastro de ' + response.data.nome + ' realizado com sucesso!', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+        })
+        .catch(function (error) {
+          toast.error(error, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
         });
-      });
+    }else{
+      await Api.put(`/medico/${dataInfo.id}`, {
+        nome: data.nome,
+        email: data.email,
+        crm: data.crm,
+        especialidade: data.especialidade,
+        telefone: data.telefone,
+        endereco: {
+          logradouro: data.logradouro,
+          bairro: data.bairro,
+          cep: data.cep,
+          cidade: data.cidade,
+          uf: data.uf,
+          numero: data.numero,
+          complemento: data.complemento
+        }
+      })
+        .then(function (response) {
+          toast.success('Atualização de ' + response.data.nome + ' foi efetuada com sucesso!', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+        })
+        .catch(function (error) {
+          toast.error(error, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+        });
+    }
+    
   };
 
   return (
@@ -77,7 +142,7 @@ export default ({ isUpdated }) => {
       <div className="app-container">
 
         <div className="form-group">
-          <PersonalDataForm register={register} errors={errors} />
+          <PersonalDataForm register={register} errors={errors} isUpdate={isUpdate} data={dataInfo}/>
         </div>
 
 
@@ -92,7 +157,8 @@ export default ({ isUpdated }) => {
                 id="demo-simple-select"
                 variant="outlined"
                 className={errors?.especialidade && "input-error"}
-                defaultValue="0"
+                defaultValue = {isUpdate ? dataInfo.especialidade : "0"}
+                disabled={isUpdate}
                 {...register("especialidade", { validate: (value) => value !== "0" })}
               >
                 <MenuItem value={"0"}>Selecione...</MenuItem>
@@ -111,11 +177,13 @@ export default ({ isUpdated }) => {
             <FormControl fullWidth>
               <TextField
                 id="outlined-basic"
-                label="CRM"
+                label={isUpdate ? "" : "CRM"}
                 variant="outlined"
                 className={errors?.crm && "input-error"}
                 type="text"
                 placeholder="Digite seu CRM..."
+                value={isUpdate ? dataInfo.crm : ""}
+                disabled={isUpdate}
                 {...register("crm", { required: true })} />
             </FormControl>
           </Box>
@@ -125,7 +193,7 @@ export default ({ isUpdated }) => {
         </div>
 
         <div className="form-group">
-          <AddressForm register={register} errors={errors} />
+          <AddressForm register={register} errors={errors} isUpdate={isUpdate} data={dataInfo} />
         </div>
 
         <div className="form-group">
@@ -150,7 +218,7 @@ export default ({ isUpdated }) => {
               Você deve confirmar que as informações fornecidas estão corretas.
             </p>
           )}
-          
+
           <Fab color="primary" variant="extended" onClick={() => handleSubmit(onSubmit)()}>
             <AddIcon sx={{ mr: 1 }} />
             Salvar

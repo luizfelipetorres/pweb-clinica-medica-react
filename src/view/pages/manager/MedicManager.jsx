@@ -1,3 +1,6 @@
+import * as React from 'react';
+import { useEffect, useState } from "react";
+import Api from "../../../services/Api";
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -15,18 +18,17 @@ import InputBase from '@mui/material/InputBase';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import * as React from 'react';
 import { useForm } from "react-hook-form";
 import { Link } from 'react-router-dom';
 import './manager.css';
 
-
 export default () => {
+
+  const [medics, setMedics] = useState([])
 
   const {
     register,
     handleSubmit,
-    formState: { errors },
   } = useForm();
 
   const [expanded, setExpanded] = React.useState(false);
@@ -38,6 +40,15 @@ export default () => {
   const onSubmit = (data) => {
     alert(JSON.stringify(data));
   };
+
+  useEffect(() => {
+    async function loadMedics() {
+      const response = await Api.get("/medico");
+      setMedics(response.data.content);
+    }
+
+    loadMedics();
+  }, [])
 
   return (
     <>
@@ -65,159 +76,64 @@ export default () => {
         </Paper>
 
         <div className="repeat-container">
-          <Accordion
-            expanded={expanded === "panel1"}
-            onChange={handleChange("panel1")}
-          >
-            <AccordionSummary
-              expandIcon={<ExpandMoreIcon />}
-              aria-controls="panel1bh-content"
-              id="panel1bh-header"
-            >
-              <Typography sx={{ width: "40%", flexShrink: 0 }}>
-                {" "}
-                Luís Fernando Cezar dos Santos{" "}
-              </Typography>
-              <Typography sx={{ width: "30%", color: "text.secondary" }}>
-                {" "}
-                Ortopedista{" "}
-              </Typography>
-              <Typography sx={{ width: "30%", color: "text.secondary" }}>
-                {" "}
-                CRM 12345-PR{" "}
-              </Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Typography sx={{ color: "text.secondary" }}>
-                {" "}
-                luisfernando_cezar@hotmail.com{" "}
-              </Typography>
-              <Typography sx={{ color: "text.secondary" }}>
-                {" "}
-                (31) 3333-3333{" "}
-              </Typography>
-              <Typography sx={{ color: "text.secondary" }}>
-                {" "}
-                Rua teste, Bairro teste, Bahia, Brasil{" "}
-              </Typography>
-              <Typography sx={{ color: "text.secondary" }}>
-                {" "}
-                CEP: 31.210-344{" "}
-              </Typography>
-              <Divider />
-              <Stack marginTop={2} direction="row" spacing={5}>
-                <Button variant="outlined" startIcon={<DeleteIcon />}>
-                  Editar
-                </Button>
-                <Button variant="contained" endIcon={<SendIcon />}>
-                  Desativar perfil
-                </Button>
-              </Stack>
-            </AccordionDetails>
-          </Accordion>
-          <Accordion
-            expanded={expanded === "panel2"}
-            onChange={handleChange("panel2")}
-          >
-            <AccordionSummary
-              expandIcon={<ExpandMoreIcon />}
-              aria-controls="panel2bh-content"
-              id="panel2bh-header"
-            >
-              <Typography sx={{ width: "40%", flexShrink: 0 }}>
-                {" "}
-                Luís Fernando Cezar dos Santos{" "}
-              </Typography>
-              <Typography sx={{ width: "30%", color: "text.secondary" }}>
-                {" "}
-                Ortopedista{" "}
-              </Typography>
-              <Typography sx={{ width: "30%", color: "text.secondary" }}>
-                {" "}
-                CRM 12345-PR{" "}
-              </Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Typography sx={{ color: "text.secondary" }}>
-                {" "}
-                luisfernando_cezar@hotmail.com{" "}
-              </Typography>
-              <Typography sx={{ color: "text.secondary" }}>
-                {" "}
-                (31) 3333-3333{" "}
-              </Typography>
-              <Typography sx={{ color: "text.secondary" }}>
-                {" "}
-                Rua teste, Bairro teste, Bahia, Brasil{" "}
-              </Typography>
-              <Typography sx={{ color: "text.secondary" }}>
-                {" "}
-                CEP: 31.210-344{" "}
-              </Typography>
-              <Divider />
-              <Stack marginTop={2} direction="row" spacing={5}>
-                <Button variant="outlined" startIcon={<DeleteIcon />}>
-                  Editar
-                </Button>
-                <Button variant="contained" endIcon={<SendIcon />}>
-                  Desativar perfil
-                </Button>
-              </Stack>
-            </AccordionDetails>
-          </Accordion>
+          {medics.map((item) => {
+            return (
+              <Accordion
+                key={item.id}
+                expanded={expanded === item.id}
+                onChange={handleChange(item.id)}
+              >
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls="panel1bh-content"
+                  id="panel1bh-header"
+                >
+                  <Typography sx={{ width: "40%", flexShrink: 0 }}>
+                    {" "}{item.nome}{" "}
+                  </Typography>
+                  <Typography sx={{ width: "30%", color: "text.secondary" }}>
+                    {" "}{item.especialidade}{" "}
+                  </Typography>
+                  <Typography sx={{ width: "30%", color: "text.secondary" }}>
+                    {" "}{item.crm}{" "}
+                  </Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <Typography sx={{ color: "text.secondary" }}>
+                    {" "}{item.email}{" "}
+                  </Typography>
+                  <Typography sx={{ color: "text.secondary" }}>
+                    {" "}{item.telefone}{" "}
+                  </Typography>
+                  <Typography sx={{ color: "text.secondary" }}>
+                    {" "}{item.endereco.logradouro}
+                    {", "}{item.endereco.bairro}
+                    {", "}{item.endereco.numero}
+                    {", "}{item.endereco.cidade}
+                    {", "}{item.endereco.uf}
+                  </Typography>
+                  <Typography sx={{ color: "text.secondary" }}>
+                    {" "}{item.endereco.cep}{" "}
+                  </Typography>
+                  <Divider />
 
-          <Accordion
-            expanded={expanded === "panel4"}
-            onChange={handleChange("panel4")}
-          >
-            <AccordionSummary
-              expandIcon={<ExpandMoreIcon />}
-              aria-controls="panel4bh-content"
-              id="panel4bh-header"
-            >
-              <Typography sx={{ width: "40%", flexShrink: 0 }}>
-                {" "}
-                Luís Fernando Cezar dos Santos{" "}
-              </Typography>
-              <Typography sx={{ width: "30%", color: "text.secondary" }}>
-                {" "}
-                Ortopedista{" "}
-              </Typography>
-              <Typography sx={{ width: "30%", color: "text.secondary" }}>
-                {" "}
-                CRM 12345-PR{" "}
-              </Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Typography sx={{ color: "text.secondary" }}>
-                {" "}
-                luisfernando_cezar@hotmail.com{" "}
-              </Typography>
-              <Typography sx={{ color: "text.secondary" }}>
-                {" "}
-                (31) 3333-3333{" "}
-              </Typography>
-              <Typography sx={{ color: "text.secondary" }}>
-                {" "}
-                Rua teste, Bairro teste, Bahia, Brasil{" "}
-              </Typography>
-              <Typography sx={{ color: "text.secondary" }}>
-                {" "}
-                CEP: 31.210-344{" "}
-              </Typography>
-              <Divider />
-              <Stack marginTop={2} direction="row" spacing={2}>
-                <Button variant="outlined" startIcon={<DeleteIcon />}>
-                  Editar
-                </Button>
-                <Button variant="contained" endIcon={<SendIcon />}>
-                  Desativar perfil
-                </Button>
-              </Stack>
-            </AccordionDetails>
-          </Accordion>
+                  <Stack marginTop={2} direction="row" spacing={5}>
+                    <Link to={`/medic/form-put/${item.crm}`}>
+                      <Button variant="outlined" startIcon={<DeleteIcon />}>
+                        Editar
+                      </Button>
+                    </Link>
+                    <Button variant="contained" endIcon={<SendIcon />}>
+                      Desativar perfil
+                    </Button>
+
+                  </Stack>
+                </AccordionDetails>
+              </Accordion>
+            )
+          })}
         </div>
-        <Link to={`/medic/form`}>
+        <Link to={`/medic/form-post`}>
           <Box sx={{ "& > :not(style)": { m: 2 } }}>
             <Fab color="primary" variant="extended">
               <AddIcon sx={{ mr: 1 }} />
