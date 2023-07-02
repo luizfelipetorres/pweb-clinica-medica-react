@@ -1,11 +1,13 @@
 import './App.css';
 import React from 'react';
-import MedicForm from './view/forms/medic/MedicForm';
+import Home from './pages/home/Home'
+import Navbar from './components/Navbar';
 
 export default () => {
   return (
     <React.Fragment className="App">
-      <MedicForm />
+      <Navbar/>
+      <Home/>
     </React.Fragment>
   );
 }
