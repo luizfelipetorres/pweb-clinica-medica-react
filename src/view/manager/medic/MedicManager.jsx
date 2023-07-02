@@ -17,6 +17,7 @@ import Paper from '@mui/material/Paper';
 import InputBase from '@mui/material/InputBase';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
+import Footer from "../../layout/Footer";
 import '../manager.css';
 
 
@@ -25,6 +26,7 @@ export default () => {
   const {
     register,
     handleSubmit,
+    formState: { errors },
   } = useForm();
 
   const [expanded, setExpanded] = React.useState(false);
@@ -38,110 +40,114 @@ export default () => {
   };
 
   return (
-    <div className="container">
-      <Paper
-        component="form"
-        sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 500, margin: 2 }}
-      >
-        <InputBase
-          sx={{ ml: 1, flex: 1 }}
-          placeholder="Pesquisar..."
-          inputProps={{ 'aria-label': 'pesquisar...' }}
-          {...register("search")}
-        />
-        <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
-        <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
-          <SearchIcon onClick={() => handleSubmit(onSubmit)()}/>
-        </IconButton>
-      </Paper>
+    <>
+      <div className="container">
+        <Paper
+          component="form"
+          sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 500, margin: 2 }}
+        >
+          <InputBase
+            sx={{ ml: 1, flex: 1 }}
+            placeholder="Pesquisar..."
+            inputProps={{ 'aria-label': 'pesquisar...' }}
+            {...register("search")}
+          />
+          <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
+          <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
+            <SearchIcon onClick={() => handleSubmit(onSubmit)()} />
+          </IconButton>
+        </Paper>
 
-      <div className='repeat-container'>
-        <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1bh-content"
-            id="panel1bh-header"
-          >
-            <Typography sx={{ width: '40%', flexShrink: 0 }}> Luís Fernando Cezar dos Santos </Typography>
-            <Typography sx={{ width: '30%', color: 'text.secondary' }}> Ortopedista </Typography>
-            <Typography sx={{ width: '30%', color: 'text.secondary' }}> CRM 12345-PR </Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <Typography sx={{ color: 'text.secondary' }}> luisfernando_cezar@hotmail.com </Typography>
-            <Typography sx={{ color: 'text.secondary' }}> (31) 3333-3333 </Typography>
-            <Typography sx={{ color: 'text.secondary' }}> Rua teste, Bairro teste, Bahia, Brasil </Typography>
-            <Typography sx={{ color: 'text.secondary' }}> CEP: 31.210-344 </Typography>
-            <Divider />
-            <Stack marginTop={2} direction="row" spacing={5}>
-              <Button variant="outlined" startIcon={<DeleteIcon />}>
-                Editar
-              </Button>
-              <Button variant="contained" endIcon={<SendIcon />}>
-                Desativar perfil
-              </Button>
-            </Stack>
-          </AccordionDetails>
-        </Accordion>
-        <Accordion expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel2bh-content"
-            id="panel2bh-header"
-          >
-            <Typography sx={{ width: '40%', flexShrink: 0 }}> Luís Fernando Cezar dos Santos </Typography>
-            <Typography sx={{ width: '30%', color: 'text.secondary' }}> Ortopedista </Typography>
-            <Typography sx={{ width: '30%', color: 'text.secondary' }}> CRM 12345-PR </Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <Typography sx={{ color: 'text.secondary' }}> luisfernando_cezar@hotmail.com </Typography>
-            <Typography sx={{ color: 'text.secondary' }}> (31) 3333-3333 </Typography>
-            <Typography sx={{ color: 'text.secondary' }}> Rua teste, Bairro teste, Bahia, Brasil </Typography>
-            <Typography sx={{ color: 'text.secondary' }}> CEP: 31.210-344 </Typography>
-            <Divider />
-            <Stack marginTop={2} direction="row" spacing={5}>
-              <Button variant="outlined" startIcon={<DeleteIcon />}>
-                Editar
-              </Button>
-              <Button variant="contained" endIcon={<SendIcon />}>
-                Desativar perfil
-              </Button>
-            </Stack>
-          </AccordionDetails>
-        </Accordion>
+        <div className='repeat-container'>
+          <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1bh-content"
+              id="panel1bh-header"
+            >
+              <Typography sx={{ width: '40%', flexShrink: 0 }}> Luís Fernando Cezar dos Santos </Typography>
+              <Typography sx={{ width: '30%', color: 'text.secondary' }}> Ortopedista </Typography>
+              <Typography sx={{ width: '30%', color: 'text.secondary' }}> CRM 12345-PR </Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Typography sx={{ color: 'text.secondary' }}> luisfernando_cezar@hotmail.com </Typography>
+              <Typography sx={{ color: 'text.secondary' }}> (31) 3333-3333 </Typography>
+              <Typography sx={{ color: 'text.secondary' }}> Rua teste, Bairro teste, Bahia, Brasil </Typography>
+              <Typography sx={{ color: 'text.secondary' }}> CEP: 31.210-344 </Typography>
+              <Divider />
+              <Stack marginTop={2} direction="row" spacing={5}>
+                <Button variant="outlined" startIcon={<DeleteIcon />}>
+                  Editar
+                </Button>
+                <Button variant="contained" endIcon={<SendIcon />}>
+                  Desativar perfil
+                </Button>
+              </Stack>
+            </AccordionDetails>
+          </Accordion>
+          <Accordion expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel2bh-content"
+              id="panel2bh-header"
+            >
+              <Typography sx={{ width: '40%', flexShrink: 0 }}> Luís Fernando Cezar dos Santos </Typography>
+              <Typography sx={{ width: '30%', color: 'text.secondary' }}> Ortopedista </Typography>
+              <Typography sx={{ width: '30%', color: 'text.secondary' }}> CRM 12345-PR </Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Typography sx={{ color: 'text.secondary' }}> luisfernando_cezar@hotmail.com </Typography>
+              <Typography sx={{ color: 'text.secondary' }}> (31) 3333-3333 </Typography>
+              <Typography sx={{ color: 'text.secondary' }}> Rua teste, Bairro teste, Bahia, Brasil </Typography>
+              <Typography sx={{ color: 'text.secondary' }}> CEP: 31.210-344 </Typography>
+              <Divider />
+              <Stack marginTop={2} direction="row" spacing={5}>
+                <Button variant="outlined" startIcon={<DeleteIcon />}>
+                  Editar
+                </Button>
+                <Button variant="contained" endIcon={<SendIcon />}>
+                  Desativar perfil
+                </Button>
+              </Stack>
+            </AccordionDetails>
+          </Accordion>
 
-        <Accordion expanded={expanded === 'panel4'} onChange={handleChange('panel4')}>
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel4bh-content"
-            id="panel4bh-header"
-          >
-            <Typography sx={{ width: '40%', flexShrink: 0 }}> Luís Fernando Cezar dos Santos </Typography>
-            <Typography sx={{ width: '30%', color: 'text.secondary' }}> Ortopedista </Typography>
-            <Typography sx={{ width: '30%', color: 'text.secondary' }}> CRM 12345-PR </Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <Typography sx={{ color: 'text.secondary' }}> luisfernando_cezar@hotmail.com </Typography>
-            <Typography sx={{ color: 'text.secondary' }}> (31) 3333-3333 </Typography>
-            <Typography sx={{ color: 'text.secondary' }}> Rua teste, Bairro teste, Bahia, Brasil </Typography>
-            <Typography sx={{ color: 'text.secondary' }}> CEP: 31.210-344 </Typography>
-            <Divider />
-            <Stack marginTop={2} direction="row" spacing={2}>
-              <Button variant="outlined" startIcon={<DeleteIcon />}>
-                Editar
-              </Button>
-              <Button variant="contained" endIcon={<SendIcon />}>
-                Desativar perfil
-              </Button>
-            </Stack>
-          </AccordionDetails>
-        </Accordion>
+          <Accordion expanded={expanded === 'panel4'} onChange={handleChange('panel4')}>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel4bh-content"
+              id="panel4bh-header"
+            >
+              <Typography sx={{ width: '40%', flexShrink: 0 }}> Luís Fernando Cezar dos Santos </Typography>
+              <Typography sx={{ width: '30%', color: 'text.secondary' }}> Ortopedista </Typography>
+              <Typography sx={{ width: '30%', color: 'text.secondary' }}> CRM 12345-PR </Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Typography sx={{ color: 'text.secondary' }}> luisfernando_cezar@hotmail.com </Typography>
+              <Typography sx={{ color: 'text.secondary' }}> (31) 3333-3333 </Typography>
+              <Typography sx={{ color: 'text.secondary' }}> Rua teste, Bairro teste, Bahia, Brasil </Typography>
+              <Typography sx={{ color: 'text.secondary' }}> CEP: 31.210-344 </Typography>
+              <Divider />
+              <Stack marginTop={2} direction="row" spacing={2}>
+                <Button variant="outlined" startIcon={<DeleteIcon />}>
+                  Editar
+                </Button>
+                <Button variant="contained" endIcon={<SendIcon />}>
+                  Desativar perfil
+                </Button>
+              </Stack>
+            </AccordionDetails>
+          </Accordion>
+        </div>
+        <Box sx={{ '& > :not(style)': { m: 2 } }}>
+          <Fab color="primary" variant="extended">
+            <AddIcon sx={{ mr: 1 }} />
+            Cadastrar novo médico
+          </Fab>
+        </Box>
+
       </div>
-      <Box sx={{ '& > :not(style)': { m: 2 } }}>
-        <Fab color="primary" variant="extended">
-          <AddIcon sx={{ mr: 1 }} />
-          Cadastrar novo médico
-        </Fab>
-      </Box>
-    </div>
+      <Footer />
+    </>
   );
 };

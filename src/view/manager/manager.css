@@ -1,3 +1,5 @@
+@import url("../../style/variables.css");
+
 .container {
   background: #fffafa;
   height: 100vh;
