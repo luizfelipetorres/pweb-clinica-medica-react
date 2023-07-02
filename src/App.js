@@ -5,7 +5,6 @@ import Navbar from './components/Navbar';
 import MedicForm from './view/forms/medic/MedicForm';
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import MedicForm from './view/forms/medic/MedicForm';
 
 export default () => {
   return (
