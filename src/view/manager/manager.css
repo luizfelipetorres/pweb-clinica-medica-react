@@ -1,0 +1,15 @@
+@import url("../../style/variables.css");
+
+.container {
+  background: #fffafa;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: normal;
+}
+
+.repeat-container {
+  margin: 2ch;
+}
+
