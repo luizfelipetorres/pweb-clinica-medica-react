@@ -39,6 +39,11 @@
     flex-direction: column;
 }
 
+.HomeMenu div:hover {
+    transform: scale(1.1);
+}
+
+
 .alignCenter{
     text-align: center;
 }
