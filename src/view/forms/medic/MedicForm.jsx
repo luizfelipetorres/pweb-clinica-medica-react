@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
-import { isEmail } from "validator";
 import AddressForm from "../general/AddressForm";
 import "../form.css";
+import PersonalDataForm from "../general/PersonalDataForm";
 import Button from "../../../components/Button";
 import Footer from "../../layout/Footer";
 import { toast } from "react-toastify";
@@ -19,23 +19,11 @@ export default () => {
 
   return (
     <div className="app-container">
+      <PersonalDataForm register={register} errors={errors} />
+
       <div className="form-group">
         <h2>Profissional</h2>
       </div>
-
-      <div className="form-group">
-        <label>Nome completo</label>
-        <input
-          className={errors?.name && "input-error"}
-          type="text"
-          placeholder="Seu nome completo"
-          {...register("name", { required: true })}
-        />
-        {errors?.name?.type === "required" && (
-          <p className="error-message">Nome completo é obrigatório.</p>
-        )}
-      </div>
-
       <div>
         <div className="form-group">
           <label>Especialidade</label>
@@ -68,45 +56,6 @@ export default () => {
             <p className="error-message">CRM é obrigatório.</p>
           )}
         </div>
-      </div>
-
-      <div className="form-group">
-        <h2>Contato</h2>
-      </div>
-
-      <div className="form-group">
-        <label>E-mail</label>
-        <input
-          className={errors?.email && "input-error"}
-          type="email"
-          placeholder="Seu e-mail"
-          {...register("email", {
-            required: true,
-            validate: (value) => isEmail(value),
-          })}
-        />
-        {errors?.email?.type === "required" && (
-          <p className="error-message">Email é obrigatório.</p>
-        )}
-
-        {errors?.email?.type === "validate" && (
-          <p className="error-message">Email é válido.</p>
-        )}
-      </div>
-
-      <div className="form-group">
-        <label>Telefone</label>
-        <input
-          className={errors?.email && "input-error"}
-          type="email"
-          placeholder="Seu telefone"
-          {...register("telephone", {
-            required: true,
-          })}
-        />
-        {errors?.telephone?.type === "required" && (
-          <p className="error-message">Telefone é obrigatório.</p>
-        )}
       </div>
 
       <div className="form-group">
@@ -143,7 +92,7 @@ export default () => {
       </div>
 
       <div className="form-group">
-        <Button text="Cancelar" onClick={() => toast.info("Cancelado")} />
+        <button onClick={() => alert("Cancelado")}>Cancelar</button>
       </div>
       <Footer />
     </div>
