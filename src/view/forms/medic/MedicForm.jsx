@@ -1,8 +1,10 @@
 import { useForm } from "react-hook-form";
 import { isEmail } from "validator";
 import AddressForm from "../general/AddressForm";
-import '../form.css';
-
+import "../form.css";
+import Button from "../../../components/Button";
+import Footer from "../../layout/Footer";
+import { toast } from "react-toastify";
 
 export default () => {
   const {
@@ -17,7 +19,6 @@ export default () => {
 
   return (
     <div className="app-container">
-
       <div className="form-group">
         <h2>Profissional</h2>
       </div>
@@ -68,7 +69,7 @@ export default () => {
           )}
         </div>
       </div>
-      
+
       <div className="form-group">
         <h2>Contato</h2>
       </div>
@@ -100,7 +101,7 @@ export default () => {
           type="email"
           placeholder="Seu telefone"
           {...register("telephone", {
-            required: true
+            required: true,
           })}
         />
         {errors?.telephone?.type === "required" && (
@@ -112,7 +113,7 @@ export default () => {
         <h2>Endereço</h2>
       </div>
 
-      <AddressForm register={register} errors={errors}/>
+      <AddressForm register={register} errors={errors} />
 
       <div className="form-group">
         <h2>Termo de compromisso</h2>
@@ -138,12 +139,13 @@ export default () => {
       </div>
 
       <div className="form-group">
-        <button onClick={() => handleSubmit(onSubmit)()}>Salvar</button>
+        <Button text="Salvar" onClick={() => handleSubmit(onSubmit)()} />
       </div>
-      
+
       <div className="form-group">
-        <button onClick={() => alert('Cancelado')}>Cancelar</button>
+        <Button text="Cancelar" onClick={() => toast.info("Cancelado")} />
       </div>
+      <Footer />
     </div>
   );
 };
