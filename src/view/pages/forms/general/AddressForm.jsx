@@ -1,82 +1,136 @@
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import TextField from '@mui/material/TextField';
+import Divider from '@mui/material/Divider';
 import "../form.css";
 
-export default ({ register, errors }) => {
+export default ({ register, errors, isUpdate }) => {
+
   return (
     <>
-      <div className="form-group">
       <h2>Endereço</h2>
-        <label>Logradouro</label>
-        <input
-          className={errors?.name && "input-error"}
-          type="text"
-          placeholder="Informe logradouro"
-          {...register("public-place", { required: true })}
-        />
-        {errors?.publicPlace?.type === "required" && (
-          <p className="error-message">Logradouro é obrigatório.</p>
-        )}
+      <Divider />
+      <Box marginTop={2}>
+        <FormControl fullWidth>
+          <TextField
+            id="outlined-basic"
+            label={isUpdate ? "" : "Logradouro"}
+            variant="outlined"
+            className={errors?.logradouro && "input-error"}
+            type="text"
+            placeholder="Digite o logradouro..."
+            {...register("logradouro", { required: isUpdate ? false : true })} />
+        </FormControl>
+      </Box>
+      {errors?.logradouro?.type === "required" && (
+        <p className="error-message">Logradouro é obrigatório.</p>
+      )}
 
-        <label>Número</label>
-        <input
-          className={errors?.name && "input-error"}
-          type="text"
-          placeholder="Informe número"
-          {...register("number", { required: true })}
-        />
-        {errors?.number?.type === "required" && (
-          <p className="error-message">Número é obrigatório.</p>
-        )}
+      <Box marginTop={2}>
+        <FormControl fullWidth>
+          <TextField
+            id="outlined-basic"
+            label={isUpdate ? "" : "Número"}
+            variant="outlined"
+            className={errors?.numero && "input-error"}
+            type="text"
+            placeholder="Digite o número..."
+            {...register("numero", { required: isUpdate ? false : true })} />
+        </FormControl>
+      </Box>
+      {errors?.numero?.type === "required" && (
+        <p className="error-message">Número é obrigatório.</p>
+      )}
 
-        <label>Complemento</label>
-        <input
-          className={errors?.name && "input-error"}
-          type="text"
-          placeholder="Informe complemento"
-          {...register("complement", { required: true })}
-        />
-        {errors?.complement?.type === "required" && (
-          <p className="error-message">Complemento é obrigatório.</p>
-        )}
+      <Box marginTop={2}>
+        <FormControl fullWidth>
+          <TextField
+            id="outlined-basic"
+            label={isUpdate ? "" : "Complemento"}
+            variant="outlined"
+            className={errors?.complemento && "input-error"}
+            type="text"
+            placeholder="Digite o complemento..."
+            {...register("complemento", { required: isUpdate ? false : true })} />
+        </FormControl>
+      </Box>
+      {errors?.complemento?.type === "required" && (
+        <p className="error-message">Complemento é obrigatório.</p>
+      )}
 
-        <label>Cidade</label>
-        <input
-          className={errors?.name && "input-error"}
-          type="text"
-          placeholder="Informe cidade"
-          {...register("city", { required: true })}
-        />
-        {errors?.city?.type === "required" && (
-          <p className="error-message">Cidade é obrigatório.</p>
-        )}
+      <Box marginTop={2}>
+        <FormControl fullWidth>
+          <TextField
+            id="outlined-basic"
+            label={isUpdate ? "" : "Bairro"}
+            variant="outlined"
+            className={errors?.bairro && "input-error"}
+            type="text"
+            placeholder="Digite o bairro..."
+            {...register("bairro", { required: isUpdate ? false : true })} />
+        </FormControl>
+      </Box>
+      {errors?.bairro?.type === "required" && (
+        <p className="error-message">Bairro é obrigatório.</p>
+      )}
 
-        <label>UF</label>
-        <select
-          className={errors?.specialty && "input-error"}
-          defaultValue="0"
-          {...register("state", { validate: (value) => value !== "0" })}
-        >
-          <option value="0">Selecione um estado...</option>
-          <option value="ortopedia">BA</option>
-          <option value="cardiologia">SP</option>
-          <option value="ginecologia">RJ</option>
-          <option value="dermatologia">MG</option>
-        </select>
+      <Box marginTop={2}>
+        <FormControl fullWidth>
+          <TextField
+            id="outlined-basic"
+            label={isUpdate ? "" : "Cidade"}
+            variant="outlined"
+            className={errors?.cidade && "input-error"}
+            type="text"
+            placeholder="Digite o cidade..."
+            {...register("cidade", { required: isUpdate ? false : true })} />
+        </FormControl>
+      </Box>
+      {errors?.cidade?.type === "required" && (
+        <p className="error-message">Cidade é obrigatório.</p>
+      )}
 
-        {errors?.state?.type === "validate" && (
-          <p className="error-message">UF é obrigatório.</p>
-        )}
-
-        <label>CEP</label>
-        <input
-          className={errors?.name && "input-error"}
-          type="text"
-          placeholder="Informe CEP"
-          {...register("zip-code", { required: true })}
-        />
-        {errors?.zipCode?.type === "required" && (
-          <p className="error-message">CEP é obrigatório.</p>
-        )}
-      </div>
+      <Box marginTop={2} sx={{ minWidth: 120 }}>
+        <FormControl fullWidth>
+          <InputLabel id="demo-simple-select-label">UF</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            variant="outlined"
+            className={errors?.uf && "input-error"}
+            {...register("uf", { validate: (value) => value !== "0" })}
+          >
+            <MenuItem value={"0"}>Selecione o estado...</MenuItem>
+            <MenuItem value={"BA"}>BA</MenuItem>
+            <MenuItem value={"SP"}>SP</MenuItem>
+            <MenuItem value={"RJ"}>RJ</MenuItem>
+            <MenuItem value={"MG"}>MG</MenuItem>
+          </Select>
+        </FormControl>
+      </Box>
+      {errors?.uf?.type === "validate" && (
+        <p className="error-message">UF é obrigatório.</p>
+      )}
+      
+      <Box marginTop={2}>
+        <FormControl fullWidth>
+          <TextField
+            id="outlined-basic"
+            label={isUpdate ? "" : "CEP"}
+            variant="outlined"
+            className={errors?.cep && "input-error"}
+            type="text"
+            placeholder="Digite o cep..."
+            {...register("cep", { required: isUpdate ? false : true })} />
+        </FormControl>
+      </Box>
+      {errors?.cep?.type === "required" && (
+        <p className="error-message">CEP é obrigatório.</p>
+      )}
     </>
   );
 };

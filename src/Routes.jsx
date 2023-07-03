@@ -8,7 +8,8 @@ import ErrorPage from "./view/pages/error/ErrorPage";
 export default () => {
   return (
     <Routes>
-      <Route path="/medic/form" element={<MedicForm />} />
+      <Route path="/medic/form-put/:crm" element={<MedicForm isUpdate={true}/>} />
+      <Route path="/medic/form-post" element={<MedicForm isUpdate={false}/>} />
       <Route path="/medic" element={<MedicManager />} />
       <Route path="/" element={<Home />} />
       <Route path="*" element={<ErrorPage />} />
