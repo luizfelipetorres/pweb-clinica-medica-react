@@ -24,34 +24,62 @@ import "./form.css";
 export default ({ isUpdate }) => {
 
   const { crm } = isUpdate ? useParams() : '';
-  const [dataInfo, setDataInfo] = useState({});
   const history = isUpdate ? useNavigate() : '';
+  const [id, setId] = useState(0);
 
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      nome: "",
+      email: "",
+      telefone: "",
+      especialidade: "",
+      crm: "",
+      logradouro: "",
+      numero: "",
+      complemento: "",
+      bairro: "",
+      cidade: "",
+      uf: "",
+      cep: ""
+    }
+  });
 
   useEffect(() => {
 
     async function loadFilme() {
-      const response = await Api.get("/medico/" + crm)
-      
+      const response = await Api.get("/medico/" + crm);
+
       if (response.data.length === 0) {
         history("/")
         return
       }
 
-      setDataInfo(response.data);
+      setId(response.data.id)
+      setValue("nome", response.data.nome);
+      setValue("email", response.data.email);
+      setValue("telefone", response.data.telefone);
+      setValue("especialidade", response.data.especialidade);
+      setValue("crm", response.data.crm);
+      setValue("logradouro", response.data.endereco.logradouro);
+      setValue("numero", response.data.endereco.numero);
+      setValue("complemento", response.data.endereco.complemento);
+      setValue("bairro", response.data.endereco.bairro);
+      setValue("cidade", response.data.endereco.cidade);
+      setValue("uf", response.data.endereco.uf);
+      setValue("cep", response.data.endereco.cep);
     }
 
-    if(isUpdate) loadFilme();
-    
+    if (isUpdate) loadFilme();
+
   }, [])
 
   const onSubmit = async (data) => {
-    if(!isUpdate){
+    if (!isUpdate) {
       await Api.post("/medico", {
         nome: data.nome,
         email: data.email,
@@ -92,8 +120,8 @@ export default ({ isUpdate }) => {
             theme: "light",
           });
         });
-    }else{
-      await Api.put(`/medico/${dataInfo.id}`, {
+    } else {
+      await Api.put(`/medico/${id}`, {
         nome: data.nome,
         email: data.email,
         crm: data.crm,
@@ -134,7 +162,6 @@ export default ({ isUpdate }) => {
           });
         });
     }
-    
   };
 
   return (
@@ -142,9 +169,8 @@ export default ({ isUpdate }) => {
       <div className="app-container">
 
         <div className="form-group">
-          <PersonalDataForm register={register} errors={errors} isUpdate={isUpdate} data={dataInfo}/>
+          <PersonalDataForm register={register} errors={errors} isUpdate={isUpdate} />
         </div>
-
 
         <div className="form-group">
           <h2>Profissional</h2>
@@ -157,7 +183,6 @@ export default ({ isUpdate }) => {
                 id="demo-simple-select"
                 variant="outlined"
                 className={errors?.especialidade && "input-error"}
-                defaultValue = {isUpdate ? dataInfo.especialidade : "0"}
                 disabled={isUpdate}
                 {...register("especialidade", { validate: (value) => value !== "0" })}
               >
@@ -182,9 +207,8 @@ export default ({ isUpdate }) => {
                 className={errors?.crm && "input-error"}
                 type="text"
                 placeholder="Digite seu CRM..."
-                value={isUpdate ? dataInfo.crm : ""}
                 disabled={isUpdate}
-                {...register("crm", { required: true })} />
+                {...register("crm", { required: isUpdate ? false : true })} />
             </FormControl>
           </Box>
           {errors?.crm?.type === "required" && (
@@ -193,7 +217,7 @@ export default ({ isUpdate }) => {
         </div>
 
         <div className="form-group">
-          <AddressForm register={register} errors={errors} isUpdate={isUpdate} data={dataInfo} />
+          <AddressForm register={register} errors={errors} isUpdate={isUpdate} />
         </div>
 
         <div className="form-group">

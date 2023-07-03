@@ -4,10 +4,10 @@ import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
 import Divider from '@mui/material/Divider';
 import { isEmail, isMobilePhone } from "validator";
-
 import "../form.css";
 
-export default ({ register, errors, isUpdate, data }) => {
+export default ({ register, errors, isUpdate }) => {
+
   return (
     <>
       <h2>Dados pessoais</h2>
@@ -21,8 +21,7 @@ export default ({ register, errors, isUpdate, data }) => {
             className={errors?.nome && "input-error"}
             type="text"
             placeholder="Digite seu nome completo..."
-            value={isUpdate ? data.nome : ""}
-            {...register("nome", { required: true })} />
+            {...register("nome", { required: isUpdate ? false : true })} />
         </FormControl>
       </Box>
       {errors?.nome?.type === "required" && (
@@ -38,10 +37,9 @@ export default ({ register, errors, isUpdate, data }) => {
             className={errors?.email && "input-error"}
             type="text"
             placeholder="Digite seu e-mail..."
-            value={isUpdate ? data.email : ""}
             disabled={isUpdate}
             {...register("email", {
-              required: true,
+              required: isUpdate ? false : true,
               validate: (value) => isEmail(value),
             })} />
         </FormControl>
@@ -62,11 +60,11 @@ export default ({ register, errors, isUpdate, data }) => {
             className={errors?.telefone && "input-error"}
             type="text"
             placeholder="Digite seu telefone..."
-            value={isUpdate ? data.telefone : ""}
             {...register("telefone", {
-              required: true,
+              required: isUpdate ? false : true,
               validate: (value) => isMobilePhone(value, 'pt-BR')
-            })} />
+            })}
+          />
         </FormControl>
       </Box>
       {errors?.telefone?.type === "required" && (

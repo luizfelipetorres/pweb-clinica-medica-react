@@ -8,9 +8,7 @@ import TextField from '@mui/material/TextField';
 import Divider from '@mui/material/Divider';
 import "../form.css";
 
-export default ({ register, errors, isUpdate, data }) => {
-
-  console.log(data.endereco);
+export default ({ register, errors, isUpdate }) => {
 
   return (
     <>
@@ -25,8 +23,7 @@ export default ({ register, errors, isUpdate, data }) => {
             className={errors?.logradouro && "input-error"}
             type="text"
             placeholder="Digite o logradouro..."
-            value={isUpdate ? data.endereco?.logradouro : ""}
-            {...register("logradouro", { required: true })} />
+            {...register("logradouro", { required: isUpdate ? false : true })} />
         </FormControl>
       </Box>
       {errors?.logradouro?.type === "required" && (
@@ -42,8 +39,7 @@ export default ({ register, errors, isUpdate, data }) => {
             className={errors?.numero && "input-error"}
             type="text"
             placeholder="Digite o número..."
-            value={isUpdate ? data.endereco?.numero : ""}
-            {...register("numero", { required: true })} />
+            {...register("numero", { required: isUpdate ? false : true })} />
         </FormControl>
       </Box>
       {errors?.numero?.type === "required" && (
@@ -59,8 +55,7 @@ export default ({ register, errors, isUpdate, data }) => {
             className={errors?.complemento && "input-error"}
             type="text"
             placeholder="Digite o complemento..."
-            value={isUpdate ? data.endereco?.complemento : ""}
-            {...register("complemento", { required: true })} />
+            {...register("complemento", { required: isUpdate ? false : true })} />
         </FormControl>
       </Box>
       {errors?.complemento?.type === "required" && (
@@ -76,8 +71,7 @@ export default ({ register, errors, isUpdate, data }) => {
             className={errors?.bairro && "input-error"}
             type="text"
             placeholder="Digite o bairro..."
-            value={isUpdate ? data.endereco?.bairro : ""}
-            {...register("bairro", { required: true })} />
+            {...register("bairro", { required: isUpdate ? false : true })} />
         </FormControl>
       </Box>
       {errors?.bairro?.type === "required" && (
@@ -93,8 +87,7 @@ export default ({ register, errors, isUpdate, data }) => {
             className={errors?.cidade && "input-error"}
             type="text"
             placeholder="Digite o cidade..."
-            value={isUpdate ? data.endereco?.cidade : ""}
-            {...register("cidade", { required: true })} />
+            {...register("cidade", { required: isUpdate ? false : true })} />
         </FormControl>
       </Box>
       {errors?.cidade?.type === "required" && (
@@ -109,7 +102,6 @@ export default ({ register, errors, isUpdate, data }) => {
             id="demo-simple-select"
             variant="outlined"
             className={errors?.uf && "input-error"}
-            defaultValue={isUpdate ? data.endereco?.uf : "0"}
             {...register("uf", { validate: (value) => value !== "0" })}
           >
             <MenuItem value={"0"}>Selecione o estado...</MenuItem>
@@ -133,8 +125,7 @@ export default ({ register, errors, isUpdate, data }) => {
             className={errors?.cep && "input-error"}
             type="text"
             placeholder="Digite o cep..."
-            value={isUpdate ? data.endereco?.cep : ""}
-            {...register("cep", { required: true })} />
+            {...register("cep", { required: isUpdate ? false : true })} />
         </FormControl>
       </Box>
       {errors?.cep?.type === "required" && (
