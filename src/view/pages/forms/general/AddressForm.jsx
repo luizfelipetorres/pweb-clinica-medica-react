@@ -105,17 +105,40 @@ export default ({ register, errors, isUpdate }) => {
             {...register("uf", { validate: (value) => value !== "0" })}
           >
             <MenuItem value={"0"}>Selecione o estado...</MenuItem>
-            <MenuItem value={"BA"}>BA</MenuItem>
-            <MenuItem value={"SP"}>SP</MenuItem>
-            <MenuItem value={"RJ"}>RJ</MenuItem>
-            <MenuItem value={"MG"}>MG</MenuItem>
+            <MenuItem value={"AC"}>Acre (AC)</MenuItem>
+            <MenuItem value={"AL"}>Alagoas (AL)</MenuItem>
+            <MenuItem value={"AP"}>Amapá (AP)</MenuItem>
+            <MenuItem value={"AM"}>Amazonas (AM)</MenuItem>
+            <MenuItem value={"BA"}>Bahia (BA)</MenuItem>
+            <MenuItem value={"CE"}>Ceará (CE)</MenuItem>
+            <MenuItem value={"DF"}>Distrito Federal (DF)</MenuItem>
+            <MenuItem value={"ES"}>Espírito Santo (ES)</MenuItem>
+            <MenuItem value={"GO"}>Goiás (GO)</MenuItem>
+            <MenuItem value={"MA"}>Maranhão (MA)</MenuItem>
+            <MenuItem value={"MT"}>Mato Grosso (MT)</MenuItem>
+            <MenuItem value={"MS"}>Mato Grosso do Sul (MS)</MenuItem>
+            <MenuItem value={"MG"}>Minas Gerais (MG)</MenuItem>
+            <MenuItem value={"PA"}>Pará (PA)</MenuItem>
+            <MenuItem value={"PB"}>Paraíba (PB)</MenuItem>
+            <MenuItem value={"PR"}>Paraná (PR)</MenuItem>
+            <MenuItem value={"PE"}>Pernambuco (PE)</MenuItem>
+            <MenuItem value={"PI"}>Piauí (PI)</MenuItem>
+            <MenuItem value={"RJ"}>Rio de Janeiro (RJ)</MenuItem>
+            <MenuItem value={"RN"}>Rio Grande do Norte (RN)</MenuItem>
+            <MenuItem value={"RS"}>Rio Grande do Sul (RS)</MenuItem>
+            <MenuItem value={"RO"}>Rondônia (RO)</MenuItem>
+            <MenuItem value={"RR"}>Roraima (RR)</MenuItem>
+            <MenuItem value={"SC"}>Santa Catarina (SC)</MenuItem>
+            <MenuItem value={"SP"}>São Paulo (SP)</MenuItem>
+            <MenuItem value={"SE"}>Sergipe (SE)</MenuItem>
+            <MenuItem value={"TO"}>Tocantins (TO)</MenuItem>
           </Select>
         </FormControl>
       </Box>
       {errors?.uf?.type === "validate" && (
         <p className="error-message">UF é obrigatório.</p>
       )}
-      
+
       <Box marginTop={2}>
         <FormControl fullWidth>
           <TextField
