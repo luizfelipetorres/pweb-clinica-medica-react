@@ -13,12 +13,13 @@ import TextField from '@mui/material/TextField';
 import Divider from '@mui/material/Divider';
 import { pink } from '@mui/material/colors';
 import Checkbox from '@mui/material/Checkbox';
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import AddressForm from "./general/AddressForm";
 import PersonalDataForm from "./general/PersonalDataForm";
 import Api from "../../../services/Api";
-import { toast } from "react-toastify";
+import { postData, updateData, defaultValues } from "./MedicFormInt"
 import "./form.css";
+import { getValue } from '@mui/system';
 
 
 export default ({ isUpdate }) => {
@@ -31,22 +32,10 @@ export default ({ isUpdate }) => {
     register,
     handleSubmit,
     setValue,
+    control,
     formState: { errors },
   } = useForm({
-    defaultValues: {
-      nome: "",
-      email: "",
-      telefone: "",
-      especialidade: "",
-      crm: "",
-      logradouro: "",
-      numero: "",
-      complemento: "",
-      bairro: "",
-      cidade: "",
-      uf: "",
-      cep: ""
-    }
+    defaultValues: { defaultValues }
   });
 
   useEffect(() => {
@@ -79,89 +68,8 @@ export default ({ isUpdate }) => {
   }, [])
 
   const onSubmit = async (data) => {
-    if (!isUpdate) {
-      await Api.post("/medico", {
-        nome: data.nome,
-        email: data.email,
-        crm: data.crm,
-        especialidade: data.especialidade,
-        telefone: data.telefone,
-        endereco: {
-          logradouro: data.logradouro,
-          bairro: data.bairro,
-          cep: data.cep,
-          cidade: data.cidade,
-          uf: data.uf,
-          numero: data.numero,
-          complemento: data.complemento
-        }
-      })
-        .then(function (response) {
-          toast.success('Cadastro de ' + response.data.nome + ' realizado com sucesso!', {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
-        })
-        .catch(function (error) {
-          toast.error(error, {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
-        });
-    } else {
-      await Api.put(`/medico/${id}`, {
-        nome: data.nome,
-        email: data.email,
-        crm: data.crm,
-        especialidade: data.especialidade,
-        telefone: data.telefone,
-        endereco: {
-          logradouro: data.logradouro,
-          bairro: data.bairro,
-          cep: data.cep,
-          cidade: data.cidade,
-          uf: data.uf,
-          numero: data.numero,
-          complemento: data.complemento
-        }
-      })
-        .then(function (response) {
-          toast.success('Atualização de ' + response.data.nome + ' foi efetuada com sucesso!', {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
-        })
-        .catch(function (error) {
-          toast.error(error, {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
-        });
-    }
+    if (!isUpdate) postData(data);
+    else updateData(id, data);
   };
 
   return (
@@ -178,20 +86,26 @@ export default ({ isUpdate }) => {
           <Box marginTop={2} sx={{ minWidth: 120 }}>
             <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label">Especialidade</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                variant="outlined"
-                className={errors?.especialidade && "input-error"}
-                disabled={isUpdate}
-                {...register("especialidade", { validate: (value) => value !== "0" })}
-              >
-                <MenuItem value={"0"}>Selecione...</MenuItem>
-                <MenuItem value={"ORTOPEDIA"}>ORTOPEDIA</MenuItem>
-                <MenuItem value={"CARDIOLOGIA"}>CARDIOLOGIA</MenuItem>
-                <MenuItem value={"GINECOLOGIA"}>GINECOLOGIA</MenuItem>
-                <MenuItem value={"DERMATOLOGIA"}>DERMATOLOGIA</MenuItem>
-              </Select>
+              <Controller
+                control={control}
+                name="Select"
+                render={({ field: { onChange, onBlur, value, ref } }) => (
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    variant="outlined"
+                    className={errors?.especialidade && "input-error"}
+                    disabled={isUpdate}
+                    {...register("especialidade", { validate: (value) => value !== "0" })}
+                  >
+                    <MenuItem value={"0"}>Selecione...</MenuItem>
+                    <MenuItem value={"ORTOPEDIA"}>ORTOPEDIA</MenuItem>
+                    <MenuItem value={"CARDIOLOGIA"}>CARDIOLOGIA</MenuItem>
+                    <MenuItem value={"GINECOLOGIA"}>GINECOLOGIA</MenuItem>
+                    <MenuItem value={"DERMATOLOGIA"}>DERMATOLOGIA</MenuItem>
+                  </Select>
+                )}
+              />
             </FormControl>
           </Box>
           {errors?.especialidade?.type === "validate" && (
@@ -208,7 +122,7 @@ export default ({ isUpdate }) => {
                 type="text"
                 placeholder="Digite seu CRM..."
                 disabled={isUpdate}
-                {...register("crm", { required: isUpdate ? false : true })} />
+                {...register("crm", { required: true })} />
             </FormControl>
           </Box>
           {errors?.crm?.type === "required" && (

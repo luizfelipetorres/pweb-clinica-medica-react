@@ -21,7 +21,7 @@ export default ({ register, errors, isUpdate }) => {
             className={errors?.nome && "input-error"}
             type="text"
             placeholder="Digite seu nome completo..."
-            {...register("nome", { required: isUpdate ? false : true })} />
+            {...register("nome", { required: true })} />
         </FormControl>
       </Box>
       {errors?.nome?.type === "required" && (
@@ -39,7 +39,7 @@ export default ({ register, errors, isUpdate }) => {
             placeholder="Digite seu e-mail..."
             disabled={isUpdate}
             {...register("email", {
-              required: isUpdate ? false : true,
+              required: true,
               validate: (value) => isEmail(value),
             })} />
         </FormControl>
@@ -61,7 +61,7 @@ export default ({ register, errors, isUpdate }) => {
             type="text"
             placeholder="Digite seu telefone..."
             {...register("telefone", {
-              required: isUpdate ? false : true,
+              required: true,
               validate: (value) => isMobilePhone(value, 'pt-BR')
             })}
           />

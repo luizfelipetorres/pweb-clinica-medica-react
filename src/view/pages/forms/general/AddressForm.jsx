@@ -23,7 +23,7 @@ export default ({ register, errors, isUpdate }) => {
             className={errors?.logradouro && "input-error"}
             type="text"
             placeholder="Digite o logradouro..."
-            {...register("logradouro", { required: isUpdate ? false : true })} />
+            {...register("logradouro", { required: true })} />
         </FormControl>
       </Box>
       {errors?.logradouro?.type === "required" && (
@@ -39,7 +39,7 @@ export default ({ register, errors, isUpdate }) => {
             className={errors?.numero && "input-error"}
             type="text"
             placeholder="Digite o número..."
-            {...register("numero", { required: isUpdate ? false : true })} />
+            {...register("numero", { required: true })} />
         </FormControl>
       </Box>
       {errors?.numero?.type === "required" && (
@@ -55,7 +55,7 @@ export default ({ register, errors, isUpdate }) => {
             className={errors?.complemento && "input-error"}
             type="text"
             placeholder="Digite o complemento..."
-            {...register("complemento", { required: isUpdate ? false : true })} />
+            {...register("complemento", { required: true })} />
         </FormControl>
       </Box>
       {errors?.complemento?.type === "required" && (
@@ -71,7 +71,7 @@ export default ({ register, errors, isUpdate }) => {
             className={errors?.bairro && "input-error"}
             type="text"
             placeholder="Digite o bairro..."
-            {...register("bairro", { required: isUpdate ? false : true })} />
+            {...register("bairro", { required: true })} />
         </FormControl>
       </Box>
       {errors?.bairro?.type === "required" && (
@@ -87,7 +87,7 @@ export default ({ register, errors, isUpdate }) => {
             className={errors?.cidade && "input-error"}
             type="text"
             placeholder="Digite o cidade..."
-            {...register("cidade", { required: isUpdate ? false : true })} />
+            {...register("cidade", { required: true })} />
         </FormControl>
       </Box>
       {errors?.cidade?.type === "required" && (
@@ -125,7 +125,7 @@ export default ({ register, errors, isUpdate }) => {
             className={errors?.cep && "input-error"}
             type="text"
             placeholder="Digite o cep..."
-            {...register("cep", { required: isUpdate ? false : true })} />
+            {...register("cep", { required: true })} />
         </FormControl>
       </Box>
       {errors?.cep?.type === "required" && (
