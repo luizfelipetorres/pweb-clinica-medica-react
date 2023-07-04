@@ -1,7 +1,3 @@
-import * as React from "react";
-import { Link, useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
-import Api from "../../../services/Api";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -13,20 +9,20 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Divider from "@mui/material/Divider";
 import Fab from "@mui/material/Fab";
-import Stack from "@mui/material/Stack";
 import Pagination from "@mui/material/Pagination";
 import PaginationItem from "@mui/material/PaginationItem";
-<<<<<<< HEAD
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-=======
->>>>>>> 225db65 (Iniciar implementação de consultas e refatorar listagens)
-import Typography from "@mui/material/Typography";
-import "./manager.css";
+import Stack from "@mui/material/Stack";
+import * as React from "react";
+import { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import Api from "../../../services/Api";
 import PersonDetail from "./detail/PersonDetail";
+import "./manager.css";
 import MedicSummary from "./summary/MedicSummary";
 
 export default () => {
@@ -36,10 +32,7 @@ export default () => {
   const query = new URLSearchParams(location.search);
   const page = parseInt(query.get("page") || "1", 10);
   const [totalPages, setTotalPages] = useState(0);
-<<<<<<< HEAD
   const [open, setOpen] = React.useState(false);
-=======
->>>>>>> 225db65 (Iniciar implementação de consultas e refatorar listagens)
 
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
@@ -109,7 +102,6 @@ export default () => {
                     <Button variant="contained" onClick={() => handleClickOpen(item.crm)}  endIcon={<SendIcon />}>
                       Desativar perfil
                     </Button>
-<<<<<<< HEAD
 
                     <Dialog
                       open={open[item.crm]}
@@ -136,8 +128,11 @@ export default () => {
                         <Button variant="outlined" onClick={() => handleDisableMedic(item.crm)}>Desativar este perfil</Button>
                       </DialogActions>
                     </Dialog>
-=======
->>>>>>> 225db65 (Iniciar implementação de consultas e refatorar listagens)
+                    <Link to={`/medic/appointment/${item.crm}`}>
+                      <Button variant="contained" endIcon={<SendIcon />}>
+                        Marcar consulta
+                      </Button>
+                    </Link>
                   </Stack>
                 </AccordionDetails>
               </Accordion>
