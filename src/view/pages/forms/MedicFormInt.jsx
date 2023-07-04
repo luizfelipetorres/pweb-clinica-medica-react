@@ -32,7 +32,7 @@ export async function postData(data) {
             });
         })
         .catch(function (error) {
-            toast.error(error, {
+            toast.error(error.response.data.detalhes, {
                 position: "top-right",
                 autoClose: 5000,
                 hideProgressBar: false,
@@ -75,7 +75,7 @@ export async function updateData(id, data) {
             });
         })
         .catch(function (error) {
-            toast.error(error, {
+            toast.error(error.response.data.detalhes, {
                 position: "top-right",
                 autoClose: 5000,
                 hideProgressBar: false,
