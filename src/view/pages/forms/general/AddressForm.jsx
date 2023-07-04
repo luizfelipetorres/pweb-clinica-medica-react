@@ -9,7 +9,7 @@ import Divider from '@mui/material/Divider';
 import Stack from '@mui/material/Stack';
 import "../form.css";
 
-export default ({ register, errors, isUpdate, uf }) => {
+export default ({ register, errors, isUpdate, watch, watchUf }) => {
 
   return (
     <>
@@ -99,12 +99,12 @@ export default ({ register, errors, isUpdate, uf }) => {
         <Box sx={{ minWidth: 120 }}>
           <FormControl fullWidth>
             <InputLabel id="demo-simple-select-label">UF</InputLabel>
-            <Select
+            {watchUf && (<Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               variant="outlined"
+              value={watch("uf")}
               className={errors?.uf && "input-error"}
-              {...(isUpdate ? {value: uf}: {})}
               {...register("uf", { validate: (value) => value !== "0" })}
             >
               <MenuItem value={"0"}>Selecione o estado...</MenuItem>
@@ -135,7 +135,7 @@ export default ({ register, errors, isUpdate, uf }) => {
               <MenuItem value={"SP"}>São Paulo (SP)</MenuItem>
               <MenuItem value={"SE"}>Sergipe (SE)</MenuItem>
               <MenuItem value={"TO"}>Tocantins (TO)</MenuItem>
-            </Select>
+            </Select>)}
           </FormControl>
         </Box>
         {errors?.uf?.type === "validate" && (

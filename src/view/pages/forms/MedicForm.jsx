@@ -27,17 +27,19 @@ export default ({ isUpdate }) => {
   const { crm } = isUpdate ? useParams() : '';
   const history = isUpdate ? useNavigate() : '';
   const [id, setId] = useState(0);
-  const [especialidade, setEspecialidade] = useState('');
-  const [uf, setUf] = useState('');
 
   const {
     register,
     handleSubmit,
     setValue,
+    watch,
     formState: { errors },
   } = useForm({
     defaultValues: { defaultValues }
   });
+
+  const watchEspecialidade = watch("especialidade")
+  const watchUf = watch("uf")
 
   useEffect(() => {
 
@@ -62,9 +64,7 @@ export default ({ isUpdate }) => {
       setValue("uf", response.data.endereco.uf);
       setValue("cidade", response.data.endereco.cidade);
       setValue("cep", response.data.endereco.cep);
-      setEspecialidade(response.data.especialidade);
-      setUf(response.data.endereco.uf);
-      
+
     }
 
     if (isUpdate) loadData();
@@ -91,13 +91,13 @@ export default ({ isUpdate }) => {
             <Box sx={{ minWidth: 120 }}>
               <FormControl fullWidth>
                 <InputLabel id="demo-simple-select-label">Especialidade</InputLabel>
-                <Select
+                {watchEspecialidade && (<Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
                   variant="outlined"
                   className={errors?.especialidade && "input-error"}
                   disabled={isUpdate}
-                  {...(isUpdate ? {value: especialidade}: {})}
+                  value={watch("especialidade")}
                   {...register("especialidade", { validate: (value) => value !== "0" })}
                 >
                   <MenuItem value={"0"}>Selecione...</MenuItem>
@@ -105,7 +105,7 @@ export default ({ isUpdate }) => {
                   <MenuItem value={"CARDIOLOGIA"}>CARDIOLOGIA</MenuItem>
                   <MenuItem value={"GINECOLOGIA"}>GINECOLOGIA</MenuItem>
                   <MenuItem value={"DERMATOLOGIA"}>DERMATOLOGIA</MenuItem>
-                </Select>
+                </Select>)}
               </FormControl>
             </Box>
             {errors?.especialidade?.type === "validate" && (
@@ -133,7 +133,7 @@ export default ({ isUpdate }) => {
         </div>
 
         <div className="form-group">
-          <AddressForm register={register} errors={errors} isUpdate={isUpdate} uf={uf}/>
+          <AddressForm register={register} errors={errors} isUpdate={isUpdate} watch={watch} watchUf={watchUf} />
         </div>
 
         <div className="form-group">
