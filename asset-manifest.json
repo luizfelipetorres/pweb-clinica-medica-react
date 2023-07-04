@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/pweb-clinica-medica-react/static/css/main.073c9b0a.css",
-    "main.js": "/pweb-clinica-medica-react/static/js/main.6303b683.js",
-    "static/js/787.e8aa7876.chunk.js": "/pweb-clinica-medica-react/static/js/787.e8aa7876.chunk.js",
-    "static/media/logo.svg": "/pweb-clinica-medica-react/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
+    "main.css": "/pweb-clinica-medica-react/static/css/main.a34887b8.css",
+    "main.js": "/pweb-clinica-medica-react/static/js/main.2230eeb1.js",
+    "static/media/home.svg": "/pweb-clinica-medica-react/static/media/home.59848553e19c8dd7547528433dbdbf64.svg",
+    "static/media/logo.png": "/pweb-clinica-medica-react/static/media/logo.fb36d0bc9751877fb4db.png",
+    "static/media/medico.png": "/pweb-clinica-medica-react/static/media/medico.8a3a6688ef76c83d652f.png",
     "index.html": "/pweb-clinica-medica-react/index.html",
-    "main.073c9b0a.css.map": "/pweb-clinica-medica-react/static/css/main.073c9b0a.css.map",
-    "main.6303b683.js.map": "/pweb-clinica-medica-react/static/js/main.6303b683.js.map",
-    "787.e8aa7876.chunk.js.map": "/pweb-clinica-medica-react/static/js/787.e8aa7876.chunk.js.map"
+    "main.a34887b8.css.map": "/pweb-clinica-medica-react/static/css/main.a34887b8.css.map",
+    "main.2230eeb1.js.map": "/pweb-clinica-medica-react/static/js/main.2230eeb1.js.map"
   },
   "entrypoints": [
-    "static/css/main.073c9b0a.css",
-    "static/js/main.6303b683.js"
+    "static/css/main.a34887b8.css",
+    "static/js/main.2230eeb1.js"
   ]
 }
