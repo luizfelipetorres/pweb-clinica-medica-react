@@ -13,7 +13,7 @@ import TextField from '@mui/material/TextField';
 import Divider from '@mui/material/Divider';
 import { pink } from '@mui/material/colors';
 import Checkbox from '@mui/material/Checkbox';
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import AddressForm from "./general/AddressForm";
 import PersonalDataForm from "./general/PersonalDataForm";
 import Api from "../../../services/Api";
@@ -27,12 +27,13 @@ export default ({ isUpdate }) => {
   const { crm } = isUpdate ? useParams() : '';
   const history = isUpdate ? useNavigate() : '';
   const [id, setId] = useState(0);
+  const [especialidade, setEspecialidade] = useState('');
+  const [uf, setUf] = useState('');
 
   const {
     register,
     handleSubmit,
     setValue,
-    control,
     formState: { errors },
   } = useForm({
     defaultValues: { defaultValues }
@@ -52,15 +53,18 @@ export default ({ isUpdate }) => {
       setValue("nome", response.data.nome);
       setValue("email", response.data.email);
       setValue("telefone", response.data.telefone);
-      setValue("especialidade", response.data.especialidade);
       setValue("crm", response.data.crm);
+      setValue("especialidade", response.data.especialidade);
       setValue("logradouro", response.data.endereco.logradouro);
       setValue("numero", response.data.endereco.numero);
       setValue("complemento", response.data.endereco.complemento);
       setValue("bairro", response.data.endereco.bairro);
-      setValue("cidade", response.data.endereco.cidade);
       setValue("uf", response.data.endereco.uf);
+      setValue("cidade", response.data.endereco.cidade);
       setValue("cep", response.data.endereco.cep);
+      setEspecialidade(response.data.especialidade);
+      setUf(response.data.endereco.uf);
+      
     }
 
     if (isUpdate) loadData();
@@ -87,26 +91,21 @@ export default ({ isUpdate }) => {
             <Box sx={{ minWidth: 120 }}>
               <FormControl fullWidth>
                 <InputLabel id="demo-simple-select-label">Especialidade</InputLabel>
-                <Controller
-                  control={control}
-                  name="Select"
-                  render={({ field: { onChange, onBlur, value, ref } }) => (
-                    <Select
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
-                      variant="outlined"
-                      className={errors?.especialidade && "input-error"}
-                      disabled={isUpdate}
-                      {...register("especialidade", { validate: (value) => value !== "0" })}
-                    >
-                      <MenuItem value={"0"}>Selecione...</MenuItem>
-                      <MenuItem value={"ORTOPEDIA"}>ORTOPEDIA</MenuItem>
-                      <MenuItem value={"CARDIOLOGIA"}>CARDIOLOGIA</MenuItem>
-                      <MenuItem value={"GINECOLOGIA"}>GINECOLOGIA</MenuItem>
-                      <MenuItem value={"DERMATOLOGIA"}>DERMATOLOGIA</MenuItem>
-                    </Select>
-                  )}
-                />
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  variant="outlined"
+                  className={errors?.especialidade && "input-error"}
+                  disabled={isUpdate}
+                  {...(isUpdate ? {value: especialidade}: {})}
+                  {...register("especialidade", { validate: (value) => value !== "0" })}
+                >
+                  <MenuItem value={"0"}>Selecione...</MenuItem>
+                  <MenuItem value={"ORTOPEDIA"}>ORTOPEDIA</MenuItem>
+                  <MenuItem value={"CARDIOLOGIA"}>CARDIOLOGIA</MenuItem>
+                  <MenuItem value={"GINECOLOGIA"}>GINECOLOGIA</MenuItem>
+                  <MenuItem value={"DERMATOLOGIA"}>DERMATOLOGIA</MenuItem>
+                </Select>
               </FormControl>
             </Box>
             {errors?.especialidade?.type === "validate" && (
@@ -129,12 +128,12 @@ export default ({ isUpdate }) => {
             {errors?.crm?.type === "required" && (
               <p className="error-message">CRM é obrigatório.</p>
             )}
-
           </Stack>
+
         </div>
 
         <div className="form-group">
-          <AddressForm register={register} errors={errors} isUpdate={isUpdate} />
+          <AddressForm register={register} errors={errors} isUpdate={isUpdate} uf={uf}/>
         </div>
 
         <div className="form-group">
