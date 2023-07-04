@@ -16,11 +16,14 @@ import Fab from "@mui/material/Fab";
 import Stack from "@mui/material/Stack";
 import Pagination from "@mui/material/Pagination";
 import PaginationItem from "@mui/material/PaginationItem";
+<<<<<<< HEAD
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+=======
+>>>>>>> 225db65 (Iniciar implementação de consultas e refatorar listagens)
 import Typography from "@mui/material/Typography";
 import "./manager.css";
 import PersonDetail from "./detail/PersonDetail";
@@ -33,7 +36,10 @@ export default () => {
   const query = new URLSearchParams(location.search);
   const page = parseInt(query.get("page") || "1", 10);
   const [totalPages, setTotalPages] = useState(0);
+<<<<<<< HEAD
   const [open, setOpen] = React.useState(false);
+=======
+>>>>>>> 225db65 (Iniciar implementação de consultas e refatorar listagens)
 
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
@@ -103,6 +109,7 @@ export default () => {
                     <Button variant="contained" onClick={() => handleClickOpen(item.crm)}  endIcon={<SendIcon />}>
                       Desativar perfil
                     </Button>
+<<<<<<< HEAD
 
                     <Dialog
                       open={open[item.crm]}
@@ -129,6 +136,8 @@ export default () => {
                         <Button variant="outlined" onClick={() => handleDisableMedic(item.crm)}>Desativar este perfil</Button>
                       </DialogActions>
                     </Dialog>
+=======
+>>>>>>> 225db65 (Iniciar implementação de consultas e refatorar listagens)
                   </Stack>
                 </AccordionDetails>
               </Accordion>
