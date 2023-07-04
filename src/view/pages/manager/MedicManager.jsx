@@ -1,30 +1,31 @@
-import * as React from "react";
-import { Link, useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
-import Api from "../../../services/Api";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import SendIcon from "@mui/icons-material/Send";
+import { Typography } from "@mui/material";
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Divider from "@mui/material/Divider";
-import Fab from "@mui/material/Fab";
-import Stack from "@mui/material/Stack";
-import Pagination from "@mui/material/Pagination";
-import PaginationItem from "@mui/material/PaginationItem";
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import Typography from "@mui/material/Typography";
-import "./manager.css";
+import Divider from "@mui/material/Divider";
+import Fab from "@mui/material/Fab";
+import Pagination from "@mui/material/Pagination";
+import PaginationItem from "@mui/material/PaginationItem";
+import Stack from "@mui/material/Stack";
+import * as React from "react";
+import { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import Api from "../../../services/Api";
 import PersonDetail from "./detail/PersonDetail";
+import "./manager.css";
 import MedicSummary from "./summary/MedicSummary";
+import EditIcon from '@mui/icons-material/Edit';
 
 export default () => {
   const [data, setData] = useState([]);
@@ -96,11 +97,11 @@ export default () => {
                   <Divider />
                   <Stack marginTop={2} direction="row" spacing={5}>
                     <Link to={`/medic/form-put/${item.crm}`}>
-                      <Button variant="outlined" startIcon={<DeleteIcon />}>
+                      <Button variant="outlined" startIcon={<EditIcon />}>
                         Editar
                       </Button>
                     </Link>
-                    <Button variant="contained" onClick={() => handleClickOpen(item.crm)}  endIcon={<SendIcon />}>
+                    <Button  color="error" variant="contained" onClick={() => handleClickOpen(item.crm)}  startIcon={<DeleteIcon />}>
                       Desativar perfil
                     </Button>
 
@@ -129,6 +130,11 @@ export default () => {
                         <Button variant="outlined" onClick={() => handleDisableMedic(item.crm)}>Desativar este perfil</Button>
                       </DialogActions>
                     </Dialog>
+                    <Link to={`/appointment/paciente/${item.crm}`}>
+                      <Button onClick={() => console.log(item)} variant="contained" endIcon={<SendIcon />}>
+                        Marcar consulta
+                      </Button>
+                    </Link>
                   </Stack>
                 </AccordionDetails>
               </Accordion>

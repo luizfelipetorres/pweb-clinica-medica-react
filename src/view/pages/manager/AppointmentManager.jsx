@@ -1,10 +1,20 @@
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import SearchIcon from "@mui/icons-material/Search";
-import SendIcon from "@mui/icons-material/Send";
-import { Pagination } from "@mui/material";
-import PaginationItem from "@mui/material/PaginationItem";
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  FormControlLabel,
+  FormLabel,
+  InputLabel,
+  Pagination,
+  Radio,
+  RadioGroup,
+} from "@mui/material";
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
@@ -12,18 +22,19 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Divider from "@mui/material/Divider";
 import Fab from "@mui/material/Fab";
-import IconButton from "@mui/material/IconButton";
-import InputBase from "@mui/material/InputBase";
-import Paper from "@mui/material/Paper";
+import PaginationItem from "@mui/material/PaginationItem";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
+import { format } from "date-fns";
 import * as React from "react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useLocation } from "react-router-dom";
+import { toast } from "react-toastify";
 import Api from "../../../services/Api";
 import PersonalData from "./detail/PersonDetail";
 import "./manager.css";
+import { FormControl, MenuItem, Select } from "@mui/base";
 
 export default (props) => {
   const { register, handleSubmit } = useForm();
@@ -33,18 +44,50 @@ export default (props) => {
   const query = new URLSearchParams(location.search);
   const page = parseInt(query.get("page") || "1", 10);
   const [totalPages, setTotalPages] = useState(0);
+  const [open, setOpen] = useState(false);
+  const [reason, setReason] = useState(null);
+
+  const handleClickOpen = (id) => {
+    console.log(id);
+    setOpen((prevState) => ({
+      ...prevState,
+      [id]: true,
+    }));
+  };
+
+  const handleClose = (id) => {
+    setOpen((prevState) => ({
+      ...prevState,
+      [id]: false,
+    }));
+  };
+
+  const deleteAppointment = async (id) => {
+    console.log(id);
+    await Api.delete("/consulta", {
+      data: {
+        consultaId: id,
+        motivo: reason,
+      },
+    })
+      .then((result) => {
+        toast.success("Consulta deletada com sucesso! ");
+        loadData();
+      })
+      .catch((error) => toast.error(error.response.data.detalhes));
+    setOpen(false);
+  };
 
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
 
+  async function loadData() {
+    const response = await Api.get("/consulta");
+    setAppointments(response.data.content);
+    setTotalPages(response.data.totalPages);
+  }
   useEffect(() => {
-    async function loadData() {
-      const response = await Api.get("/consulta");
-      setAppointments(response.data.content);
-      setTotalPages(response.data.totalPages);
-    }
-
     loadData();
   }, [page]);
 
@@ -75,7 +118,7 @@ export default (props) => {
                     {paciente.nome}
                   </Typography>
                   <Typography sx={{ width: "30%", color: "text.secondary" }}>
-                    {new Date(item.data).toLocaleDateString("pt-BR")}
+                    {format(new Date(item.data), "dd/MM/yyyy - HH:mm")}
                   </Typography>
                 </AccordionSummary>
                 <AccordionDetails>
@@ -90,13 +133,10 @@ export default (props) => {
                     spacing={5}
                   >
                     <Link to={`/medic/form-put/${medico.crm}`}>
-                      <Button variant="outlined" startIcon={<DeleteIcon />}>
+                      <Button variant="outlined" startIcon={<EditIcon />}>
                         Editar
                       </Button>
                     </Link>
-                    <Button variant="contained" endIcon={<SendIcon />}>
-                      Desativar perfil
-                    </Button>
                   </Stack>
 
                   <Divider />
@@ -104,18 +144,122 @@ export default (props) => {
                     Dados do paciente
                   </Typography>
                   <PersonalData person={paciente} />
-                  <Stack marginTop={2} direction="row" spacing={5}>
+                  <Stack
+                    marginTop={2}
+                    marginBottom={2}
+                    direction="row"
+                    spacing={5}
+                  >
                     <Link to={`/patient/form-put/${paciente.cpf}`}>
-                      <Button variant="outlined" startIcon={<DeleteIcon />}>
+                      <Button variant="outlined" startIcon={<EditIcon />}>
                         Editar
                       </Button>
                     </Link>
-                    <Button variant="contained" endIcon={<SendIcon />}>
-                      Desativar perfil
-                    </Button>
                   </Stack>
+
                   <Divider />
+
+                  <Box marginTop={2}>
+                    <Button
+                      onClick={() => handleClickOpen(item.id)}
+                      color="error"
+                      variant="contained"
+                      startIcon={<DeleteIcon />}
+                    >
+                      Apagar consulta
+                    </Button>
+                  </Box>
                 </AccordionDetails>
+
+                <Dialog
+                  open={open[item.id]}
+                  onClose={() => handleClose(item.id)}
+                  PaperProps={{
+                    style: { boxShadow: "none", border: "2px solid #ccc" },
+                  }}
+                  slotProps={{
+                    backdrop: {
+                      style: {
+                        backgroundColor: "rgba(0, 0, 0, 0.1)",
+                        backdropFilter: "blur(5px)",
+                      },
+                    },
+                  }}
+                >
+                  <DialogTitle color="primary" id="alert-dialog-title">
+                    Cancelamento de consulta
+                  </DialogTitle>
+                  <DialogContent>
+                    <Box textAlign="center" my={1}>
+                      <DialogContentText id="alert-dialog-description">
+                        Confirma o cancelamento da consulta para{" "}
+                        <Typography
+                          variant="body1"
+                          component="span"
+                          fontWeight="bold"
+                        >
+                          {paciente.nome}{" "}
+                        </Typography>
+                        com o médico{" "}
+                        <Typography
+                          variant="body1"
+                          component="span"
+                          fontWeight="bold"
+                        >
+                          {" "}
+                          {medico.nome}{" "}
+                        </Typography>
+                        ?
+                        <FormControl>
+                          <FormLabel sx={{mt: 2}} id="demo-radio-buttons-group-label">
+                            Motivo
+                          </FormLabel>
+                          <RadioGroup
+                            aria-labelledby="demo-radio-buttons-group-label"
+                            defaultValue="female"
+                            name="radio-buttons-group"
+                            onChange={(event, value) => {
+                              console.log(value)
+                              setReason(value)
+                            }}
+                          >
+                            <FormControlLabel
+                              value="PACIENTE_DESISTIU"
+                              control={<Radio />}
+                              label="Paciente desistiu"
+                            />
+                            <FormControlLabel
+                              value="MEDICO_CANCELOU"
+                              control={<Radio />}
+                              label="Médico cancelou"
+                            />
+                            <FormControlLabel
+                              value="OUTROS"
+                              control={<Radio />}
+                              label="Outros"
+                            />
+                          </RadioGroup>
+                        </FormControl>
+                      </DialogContentText>
+                    </Box>
+                  </DialogContent>
+
+                  <DialogActions>
+                    <Button
+                      variant="contained"
+                      onClick={() => handleClose(item.id)}
+                      autoFocus
+                    >
+                      cancelar
+                    </Button>
+                    <Button
+                      variant="outlined"
+                      onClick={() => deleteAppointment(item.id)}
+                    >
+                      Excluir consulta
+                    </Button>
+                  </DialogActions>
+                </Dialog>
               </Accordion>
             );
           })}
@@ -135,15 +279,6 @@ export default (props) => {
               )}
             />
           </Box>
-
-          <Link to={`/appointment/form-post`}>
-            <Box sx={{ "& > :not(style)": { m: 2 } }}>
-              <Fab color="primary" variant="extended">
-                <AddIcon sx={{ mr: 1 }} />
-                Cadastrar nova consulta
-              </Fab>
-            </Box>
-          </Link>
         </Stack>
       </div>
     </>

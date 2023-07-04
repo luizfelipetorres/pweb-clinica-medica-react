@@ -1,3 +1,5 @@
+@import url("assets/style/variables.css");
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -12,7 +14,7 @@
     sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background: #fffafa;
+    background: var(--background-color);
 
   }
 
@@ -20,3 +22,11 @@
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
       monospace;
   }
+
+  .container {
+    background: var(--background-color);
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+  }
+  

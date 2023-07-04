@@ -25,6 +25,7 @@ import Typography from '@mui/material/Typography';
 import './manager.css';
 import PersonalData from './detail/PersonDetail';
 import PatientSummary from './summary/PatientSummary';
+import EditIcon from '@mui/icons-material/Edit';
 
 export default () => {
 
@@ -96,13 +97,19 @@ export default () => {
                   <Divider />
                   <Stack marginTop={2} direction="row" spacing={5}>
                     <Link to={`/patient/form-put/${item.cpf}`}>
-                      <Button variant="outlined" startIcon={<DeleteIcon />}>
+                      <Button variant="outlined" startIcon={<EditIcon />}>
                         Editar
                       </Button>
                     </Link>
-                    <Button variant="contained" onClick={() => handleClickOpen(item.cpf)}  endIcon={<SendIcon />}>
+                    <Button color='error' variant="contained" onClick={() => handleClickOpen(item.cpf)}  startIcon={<DeleteIcon />}>
                       Desativar perfil
                     </Button>
+                    <Link to={`/appointment/medico/${item.cpf}`}>
+                      <Button variant="contained" endIcon={<SendIcon />}>
+                        Marcar consulta
+                      </Button>
+                    </Link>
+
 
                     <Dialog
                       open={open[item.cpf]}
