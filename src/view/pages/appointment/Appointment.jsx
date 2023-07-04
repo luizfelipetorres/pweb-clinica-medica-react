@@ -9,15 +9,14 @@ import Stack from "@mui/material/Stack";
 import { DateTimePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import dayjs from "dayjs";
 import { ptBR } from "dayjs/locale/pt-br";
 import * as React from "react";
 import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
 import { Link, useLocation, useParams } from "react-router-dom";
 import Api from "../../../services/Api";
 import PersonDetail from "../manager/detail/PersonDetail";
 import MedicSummary from "../manager/summary/MedicSummary";
+import { postData } from "./AppointmentInt";
 
 export default () => {
   const [data, setData] = useState([]);
@@ -28,7 +27,11 @@ export default () => {
   const [expanded, setExpanded] = React.useState(false);
   const [selected, setSelected] = React.useState(false);
   const [totalPages, setTotalPages] = useState(0);
-  const [request, setRequest] = useState({});
+  const [request, setRequest] = useState({
+    medicoCrm: null,
+    pacienteCpf: null,
+    dataHoraConsulta: null,
+  });
   const [dateTime, setDateTime] = useState(null);
 
   const handleDateTimeChange = (newDateTime) => {
@@ -36,39 +39,39 @@ export default () => {
     setDateTime(newDateTime);
   };
 
-
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
 
-  const handleSelection = (panel) => (event, isSelected) => {
-    setSelected(isSelected ? panel : false);
+  const handleSelection = (item) => (event, isSelected) => {
+    setSelected(isSelected ? item : false);
   };
+
+  const handleSubmit = () => {postData(request)};
+
   useEffect(() => {
     async function loadData() {
       const response = await Api.get(`/${type}?page=${page - 1}`);
       setData(response.data.content);
       setTotalPages(response.data.totalPages);
-
     }
 
     loadData();
   }, [page]);
 
-  useEffect(() => {
-    let obj = {
-      medicoCrm: null,
-      pacienteCpf: null,
-      dataHoraConsulta: null,
-    };
+  useEffect(() =>{
+    const obj = request
     if (type === "medico") {
       obj.pacienteCpf = document;
+      obj.medicoCrm = selected.crm;
     } else {
       obj.medicoCrm = document;
+      obj.pacienteCpf = selected.cpf;
     }
+    obj.dataHoraConsulta = dateTime;
     setRequest(obj);
-    console.log(obj);
-  }, [type]);
+  }, [selected, dateTime])
+
 
   return (
     <>
@@ -90,8 +93,8 @@ export default () => {
                 id="panel1bh-header"
               >
                 <Radio
-                  checked={selected === item.id}
-                  onChange={handleSelection(item.id)}
+                  checked={selected.id === item.id}
+                  onChange={handleSelection(item)}
                   value="a"
                   name="radio-buttons"
                   inputProps={{ "aria-label": "A" }}
@@ -104,6 +107,8 @@ export default () => {
               </AccordionDetails>
             </Accordion>
           );
+
+          
         })}
 
         <Box spacing={20}>
@@ -135,7 +140,12 @@ export default () => {
         </Box>
 
         <Box mt={10}>
-          <Fab color="primary" variant="extended" disabled={!selected || !dateTime}>
+          <Fab
+            color="primary"
+            variant="extended"
+            disabled={!selected || !dateTime}
+            onClick={() => handleSubmit()}
+          >
             <Save sx={{ m: 1 }} />
             Salvar
           </Fab>

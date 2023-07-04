@@ -25,6 +25,7 @@ import Api from "../../../services/Api";
 import PersonDetail from "./detail/PersonDetail";
 import "./manager.css";
 import MedicSummary from "./summary/MedicSummary";
+import EditIcon from '@mui/icons-material/Edit';
 
 export default () => {
   const [data, setData] = useState([]);
@@ -96,11 +97,11 @@ export default () => {
                   <Divider />
                   <Stack marginTop={2} direction="row" spacing={5}>
                     <Link to={`/medic/form-put/${item.crm}`}>
-                      <Button variant="outlined" startIcon={<DeleteIcon />}>
+                      <Button variant="outlined" startIcon={<EditIcon />}>
                         Editar
                       </Button>
                     </Link>
-                    <Button variant="contained" onClick={() => handleClickOpen(item.crm)}  endIcon={<SendIcon />}>
+                    <Button  color="error" variant="contained" onClick={() => handleClickOpen(item.crm)}  startIcon={<DeleteIcon />}>
                       Desativar perfil
                     </Button>
 
@@ -130,7 +131,7 @@ export default () => {
                       </DialogActions>
                     </Dialog>
                     <Link to={`/appointment/paciente/${item.crm}`}>
-                      <Button variant="contained" endIcon={<SendIcon />}>
+                      <Button onClick={() => console.log(item)} variant="contained" endIcon={<SendIcon />}>
                         Marcar consulta
                       </Button>
                     </Link>
