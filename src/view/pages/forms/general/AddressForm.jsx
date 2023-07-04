@@ -41,7 +41,7 @@ export default ({ register, errors, isUpdate }) => {
               className={errors?.numero && "input-error"}
               type="text"
               placeholder="Digite o número..."
-              {...register("numero", { required: true })} />
+              {...register("numero", { required: false })} />
           </FormControl>
         </Box>
         {errors?.numero?.type === "required" && (
@@ -57,7 +57,7 @@ export default ({ register, errors, isUpdate }) => {
               className={errors?.complemento && "input-error"}
               type="text"
               placeholder="Digite o complemento..."
-              {...register("complemento", { required: true })} />
+              {...register("complemento", { required: false })} />
           </FormControl>
         </Box>
         {errors?.complemento?.type === "required" && (
