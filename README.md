@@ -29,6 +29,7 @@ Para iniciar o projeto, siga as instruções abaixo:
    ```
    npm start
    ```
+5. Configure um arquivo `.env` de acordo com o arquivo `.env.example`
 
 Agora você pode acessar o sistema de gerenciamento de clínica médica em seu navegador através do endereço [http://localhost:3000](http://localhost:3000).
 

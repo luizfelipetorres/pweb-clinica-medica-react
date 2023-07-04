@@ -1,11 +1,10 @@
-import * as React from "react";
-import { Link, useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
-import Api from "../../../services/Api";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import SearchIcon from "@mui/icons-material/Search";
 import SendIcon from "@mui/icons-material/Send";
+import { Pagination } from "@mui/material";
+import PaginationItem from "@mui/material/PaginationItem";
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
@@ -13,17 +12,23 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Divider from "@mui/material/Divider";
 import Fab from "@mui/material/Fab";
+import IconButton from "@mui/material/IconButton";
+import InputBase from "@mui/material/InputBase";
+import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
-import Pagination from "@mui/material/Pagination";
-import PaginationItem from "@mui/material/PaginationItem";
 import Typography from "@mui/material/Typography";
+import * as React from "react";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { Link, useLocation } from "react-router-dom";
+import Api from "../../../services/Api";
+import PersonalData from "./detail/PersonDetail";
 import "./manager.css";
-import PersonDetail from "./detail/PersonDetail";
-import MedicSummary from "./summary/MedicSummary";
 
-export default () => {
-  const [data, setData] = useState([]);
-  const [expanded, setExpanded] = React.useState(false);
+export default (props) => {
+  const { register, handleSubmit } = useForm();
+  const [appointments, setAppointments] = useState([]);
+  const [expanded, setExpanded] = useState(false);
   const location = useLocation();
   const query = new URLSearchParams(location.search);
   const page = parseInt(query.get("page") || "1", 10);
@@ -35,8 +40,8 @@ export default () => {
 
   useEffect(() => {
     async function loadData() {
-      const response = await Api.get(`/medico?page=${page - 1}`);
-      setData(response.data.content);
+      const response = await Api.get("/consulta");
+      setAppointments(response.data.content);
       setTotalPages(response.data.totalPages);
     }
 
@@ -47,9 +52,10 @@ export default () => {
     <>
       <div className="container">
         <Stack spacing={1}>
-          <h1>Listagem de médicos</h1>
+          <h1>Listagem de consultas</h1>
           <Divider />
-          {data.map((item) => {
+          {appointments.map((item) => {
+            const { medico, paciente } = { ...item };
             return (
               <Accordion
                 key={item.id}
@@ -62,14 +68,28 @@ export default () => {
                   aria-controls="panel1bh-content"
                   id="panel1bh-header"
                 >
-                  <MedicSummary medic={item} />
+                  <Typography sx={{ width: "40%", flexShrink: 0 }}>
+                    {medico.nome}
+                  </Typography>
+                  <Typography sx={{ width: "30%", color: "text.secondary" }}>
+                    {paciente.nome}
+                  </Typography>
+                  <Typography sx={{ width: "30%", color: "text.secondary" }}>
+                    {new Date(item.data).toLocaleDateString("pt-BR")}
+                  </Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                  <PersonDetail person={item} />
-
-                  <Divider />
-                  <Stack marginTop={2} direction="row" spacing={5}>
-                    <Link to={`/medic/form-put/${item.crm}`}>
+                  <Typography sx={{ color: "text.primary" }}>
+                    Dados do médico
+                  </Typography>
+                  <PersonalData person={medico} />
+                  <Stack
+                    marginTop={2}
+                    marginBottom={2}
+                    direction="row"
+                    spacing={5}
+                  >
+                    <Link to={`/medic/form-put/${medico.crm}`}>
                       <Button variant="outlined" startIcon={<DeleteIcon />}>
                         Editar
                       </Button>
@@ -78,6 +98,23 @@ export default () => {
                       Desativar perfil
                     </Button>
                   </Stack>
+
+                  <Divider />
+                  <Typography sx={{ color: "text.primary" }}>
+                    Dados do paciente
+                  </Typography>
+                  <PersonalData person={paciente} />
+                  <Stack marginTop={2} direction="row" spacing={5}>
+                    <Link to={`/patient/form-put/${paciente.cpf}`}>
+                      <Button variant="outlined" startIcon={<DeleteIcon />}>
+                        Editar
+                      </Button>
+                    </Link>
+                    <Button variant="contained" endIcon={<SendIcon />}>
+                      Desativar perfil
+                    </Button>
+                  </Stack>
+                  <Divider />
                 </AccordionDetails>
               </Accordion>
             );
@@ -92,18 +129,18 @@ export default () => {
               renderItem={(item) => (
                 <PaginationItem
                   component={Link}
-                  to={`/medic?page=${item.page}`}
+                  to={`/patient?page=${item.page}`}
                   {...item}
                 />
               )}
             />
           </Box>
 
-          <Link to={`/medic/form-post`}>
-            <Box marginTop={2}>
+          <Link to={`/appointment/form-post`}>
+            <Box sx={{ "& > :not(style)": { m: 2 } }}>
               <Fab color="primary" variant="extended">
                 <AddIcon sx={{ mr: 1 }} />
-                Cadastrar novo médico
+                Cadastrar nova consulta
               </Fab>
             </Box>
           </Link>

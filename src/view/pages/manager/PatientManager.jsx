@@ -18,6 +18,8 @@ import Pagination from '@mui/material/Pagination';
 import PaginationItem from '@mui/material/PaginationItem';
 import Typography from '@mui/material/Typography';
 import './manager.css';
+import PersonalData from './detail/PersonDetail';
+import PatientSummary from './summary/PatientSummary';
 
 export default () => {
 
@@ -62,33 +64,11 @@ export default () => {
                   aria-controls="panel1bh-content"
                   id="panel1bh-header"
                 >
-                  <Typography sx={{ width: "70%", flexShrink: 0 }}>
-                    {" "}{item.nome}{" "}
-                  </Typography>
-
-                  <Typography sx={{ width: "30%", color: "text.secondary" }}>
-                    {" "}{item.cpf}{" "}
-                  </Typography>
+                <PatientSummary patient={item} />
                 </AccordionSummary>
                 <AccordionDetails>
-                  <Typography sx={{ color: "text.secondary" }}>
-                    {" "}{item.email}{" "}
-                  </Typography>
-                  <Typography sx={{ color: "text.secondary" }}>
-                    {" "}{item.telefone}{" "}
-                  </Typography>
-                  <Typography sx={{ color: "text.secondary" }}>
-                    {" "}{item.endereco.logradouro}
-                    {", "}{item.endereco.bairro}
-                    {", "}{item.endereco.numero}
-                    {", "}{item.endereco.cidade}
-                    {", "}{item.endereco.uf}
-                  </Typography>
-                  <Typography sx={{ color: "text.secondary" }}>
-                    {" "}{item.endereco.cep}{" "}
-                  </Typography>
+                <PersonalData person={item} />
                   <Divider />
-
                   <Stack marginTop={2} direction="row" spacing={5}>
                     <Link to={`/patient/form-put/${item.cpf}`}>
                       <Button variant="outlined" startIcon={<DeleteIcon />}>
