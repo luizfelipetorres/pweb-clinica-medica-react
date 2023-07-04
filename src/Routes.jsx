@@ -7,14 +7,14 @@ import MedicManager from "./view/pages/manager/MedicManager";
 import PatientManager from "./view/pages/manager/PatientManager";
 import ErrorPage from "./view/pages/error/ErrorPage";
 import AppointmentManager from "./view/pages/manager/AppointmentManager";
-import MedicAppointment from "./view/pages/appointment/MedicAppointment";
+import Appointment from "./view/pages/appointment/Appointment";
 
 export default () => {
   return (
     <Routes>
       <Route path="/medic/form-put/:crm" element={<MedicForm isUpdate={true}/>} />
       <Route path="/medic/form-post" element={<MedicForm isUpdate={false}/>} />
-      <Route path="/medic/appointment/:crm" element={<MedicAppointment />} />
+      <Route path="/appointment/:type/:document" element={<Appointment />}/>
       <Route path="/medic" element={<MedicManager />} />
       <Route path="/patient" element={<PatientManager />} />
       <Route path="/patient/form-put/:cpf" element={<PatientForm isUpdate={true}/>} />

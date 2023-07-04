@@ -103,6 +103,12 @@ export default () => {
                     <Button variant="contained" onClick={() => handleClickOpen(item.cpf)}  endIcon={<SendIcon />}>
                       Desativar perfil
                     </Button>
+                    <Link to={`/appointment/medico/${item.cpf}`}>
+                      <Button variant="contained" endIcon={<SendIcon />}>
+                        Marcar consulta
+                      </Button>
+                    </Link>
+
 
                     <Dialog
                       open={open[item.cpf]}

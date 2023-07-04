@@ -2,20 +2,21 @@ import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import SendIcon from "@mui/icons-material/Send";
+import { Typography } from "@mui/material";
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Divider from "@mui/material/Divider";
-import Fab from "@mui/material/Fab";
-import Pagination from "@mui/material/Pagination";
-import PaginationItem from "@mui/material/PaginationItem";
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import Divider from "@mui/material/Divider";
+import Fab from "@mui/material/Fab";
+import Pagination from "@mui/material/Pagination";
+import PaginationItem from "@mui/material/PaginationItem";
 import Stack from "@mui/material/Stack";
 import * as React from "react";
 import { useEffect, useState } from "react";
@@ -128,7 +129,7 @@ export default () => {
                         <Button variant="outlined" onClick={() => handleDisableMedic(item.crm)}>Desativar este perfil</Button>
                       </DialogActions>
                     </Dialog>
-                    <Link to={`/medic/appointment/${item.crm}`}>
+                    <Link to={`/appointment/paciente/${item.crm}`}>
                       <Button variant="contained" endIcon={<SendIcon />}>
                         Marcar consulta
                       </Button>

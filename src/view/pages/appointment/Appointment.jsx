@@ -6,8 +6,14 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import Divider from "@mui/material/Divider";
 import Stack from "@mui/material/Stack";
+import { DateTimePicker } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import dayjs from "dayjs";
+import { ptBR } from "dayjs/locale/pt-br";
 import * as React from "react";
 import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import { Link, useLocation, useParams } from "react-router-dom";
 import Api from "../../../services/Api";
 import PersonDetail from "../manager/detail/PersonDetail";
@@ -15,13 +21,21 @@ import MedicSummary from "../manager/summary/MedicSummary";
 
 export default () => {
   const [data, setData] = useState([]);
-  const { crm } = useParams() || "";
+  const { document, type } = useParams() || "";
   const location = useLocation();
   const query = new URLSearchParams(location.search);
   const page = parseInt(query.get("page") || "1", 10);
   const [expanded, setExpanded] = React.useState(false);
   const [selected, setSelected] = React.useState(false);
   const [totalPages, setTotalPages] = useState(0);
+  const [request, setRequest] = useState({});
+  const [dateTime, setDateTime] = useState(null);
+
+  const handleDateTimeChange = (newDateTime) => {
+    console.log(newDateTime);
+    setDateTime(newDateTime);
+  };
+
 
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
@@ -32,18 +46,34 @@ export default () => {
   };
   useEffect(() => {
     async function loadData() {
-      const response = await Api.get(`/medico?page=${page - 1}`);
+      const response = await Api.get(`/${type}?page=${page - 1}`);
       setData(response.data.content);
       setTotalPages(response.data.totalPages);
+
     }
 
     loadData();
   }, [page]);
 
+  useEffect(() => {
+    let obj = {
+      medicoCrm: null,
+      pacienteCpf: null,
+      dataHoraConsulta: null,
+    };
+    if (type === "medico") {
+      obj.pacienteCpf = document;
+    } else {
+      obj.medicoCrm = document;
+    }
+    setRequest(obj);
+    console.log(obj);
+  }, [type]);
+
   return (
     <>
       <Stack spacing={1} className="container">
-        <h1>Seleciona o médico</h1>
+        <h1>Seleciona o {type}</h1>
         <Divider />
         {data.map((item) => {
           return (
@@ -70,14 +100,13 @@ export default () => {
               </AccordionSummary>
               <AccordionDetails>
                 <PersonDetail person={item} />
-
                 <Divider />
               </AccordionDetails>
             </Accordion>
           );
         })}
 
-        <Box>
+        <Box spacing={20}>
           <Pagination
             page={page}
             count={totalPages}
@@ -86,17 +115,31 @@ export default () => {
             renderItem={(item) => (
               <PaginationItem
                 component={Link}
-                to={`/medic/appointment/${crm}?page=${item.page}`}
+                to={`/appointment/${type}/${document}?page=${item.page}`}
                 {...item}
               />
             )}
           />
         </Box>
 
-      <Fab color="primary" variant="extended" disabled={!selected}>
-        <Save sx={{mb: 1}}/>
-        Salvar
-      </Fab>
+        <Box marginTop={20}>
+          <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={ptBR}>
+            <DateTimePicker
+              format="DD/MM/YYYY - hh:mm"
+              disablePast={true}
+              label="Data e hora da consulta"
+              defaultValue={dateTime}
+              onChange={handleDateTimeChange}
+            />
+          </LocalizationProvider>
+        </Box>
+
+        <Box mt={10}>
+          <Fab color="primary" variant="extended" disabled={!selected || !dateTime}>
+            <Save sx={{ m: 1 }} />
+            Salvar
+          </Fab>
+        </Box>
       </Stack>
     </>
   );
