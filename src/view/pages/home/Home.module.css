@@ -1,0 +1,55 @@
+@import url('../../../assets/style/variables.css');
+
+.Home {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+.HomeLeft{
+    width: 40%;
+    margin: auto 50px;
+    
+}
+
+.HomeRight {
+    color: var(--primary-color);
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+    width: 40%;
+    height: auto;
+}
+
+.HomeMenu{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.HomeMenu a{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: var(--primary-color);
+    margin:30px;
+}
+
+.HomeMenu a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.HomeMenu a:hover {
+    transform: scale(1.1);
+}
+
+
+.alignCenter{
+    text-align: center;
+}

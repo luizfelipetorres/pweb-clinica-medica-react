@@ -1,0 +1,34 @@
+@import url("../../../assets/style/variables.css");
+
+.app-container {
+  background: #fffafa;
+  display: flex;
+  flex-grow: 1;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  min-width: 500px;
+  max-width: 600px;
+  margin: 10px 20px;
+}
+
+.checkbox-group label {
+  flex-grow: 1;
+  font-size: 0.825rem;
+  margin-left: 10px;
+}
+
+.form-group .input-error {
+  outline: 1px solid var(--error-color);
+}
+
+.form-group .error-message {
+  color: var(--error-color);
+  font-size: 0.75rem;
+  margin-top: 8px;
+}
