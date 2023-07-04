@@ -23,6 +23,7 @@ export default ({ isUpdate }) => {
     const { cpf } = isUpdate ? useParams() : '';
     const history = isUpdate ? useNavigate() : '';
     const [id, setId] = useState(0);
+    const [uf, setUf] = useState('');
 
     const {
         register,
@@ -56,6 +57,7 @@ export default ({ isUpdate }) => {
             setValue("cidade", response.data.endereco.cidade);
             setValue("uf", response.data.endereco.uf);
             setValue("cep", response.data.endereco.cep);
+            setUf(response.data.endereco.uf);
         }
 
         if (isUpdate) loadData();
@@ -93,7 +95,7 @@ export default ({ isUpdate }) => {
 
 
                 <div className="form-group">
-                    <AddressForm register={register} errors={errors} isUpdate={isUpdate} />
+                    <AddressForm register={register} errors={errors} isUpdate={isUpdate} uf={uf}/>
                 </div>
 
                 <div className="form-group">

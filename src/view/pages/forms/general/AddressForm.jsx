@@ -9,7 +9,7 @@ import Divider from '@mui/material/Divider';
 import Stack from '@mui/material/Stack';
 import "../form.css";
 
-export default ({ register, errors, isUpdate }) => {
+export default ({ register, errors, isUpdate, uf }) => {
 
   return (
     <>
@@ -104,6 +104,7 @@ export default ({ register, errors, isUpdate }) => {
               id="demo-simple-select"
               variant="outlined"
               className={errors?.uf && "input-error"}
+              {...(isUpdate ? {value: uf}: {})}
               {...register("uf", { validate: (value) => value !== "0" })}
             >
               <MenuItem value={"0"}>Selecione o estado...</MenuItem>
