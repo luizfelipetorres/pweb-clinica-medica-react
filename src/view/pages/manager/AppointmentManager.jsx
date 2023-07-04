@@ -245,14 +245,7 @@ export default (props) => {
             />
           </Box>
 
-          <Link to={`/appointment/form-post`}>
-            <Box sx={{ "& > :not(style)": { m: 2 } }}>
-              <Fab color="primary" variant="extended">
-                <AddIcon sx={{ mr: 1 }} />
-                Cadastrar nova consulta
-              </Fab>
-            </Box>
-          </Link>
+      
         </Stack>
       </div>
     </>
