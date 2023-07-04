@@ -1,13 +1,10 @@
 @import url("../../../assets/style/variables.css");
 
 .container {
-  width: 100%;
+  background: #fffafa;
   display: flex;
   flex-direction: column;
-  align-items: normal;
+  padding: 20px;
 }
 
-.repeat-container {
-  margin: 2ch;
-}
 

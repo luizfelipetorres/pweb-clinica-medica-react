@@ -1,13 +1,13 @@
 import logo from "../../assets/img/logo.png";
-import styles from "./Navbar.module.css";
+import styles from "./Navbar.css";
 import { Link } from "react-router-dom";
 
 export default () => {
   return (
-    <nav className={styles.Navbar}>
+    <nav className={"nav-header"}>
       <div>
         <Link to="/">
-          <img src={logo} className={styles.logo} alt="logo" />
+          <img src={logo} className={"logo"} alt="logo" />
         </Link>
       </div>
       <ul>

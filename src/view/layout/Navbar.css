@@ -1,6 +1,6 @@
 @import url('../../assets/style/variables.css');
 
-nav {
+.nav-header {
     height: 70px;
     background: var(--primary-color);
     display: flex; 
@@ -20,19 +20,19 @@ nav {
     margin-top: 8px;
 }
 
-nav ul{
+.nav-header ul{
     display: flex;
     align-items: center;
     margin-right: 20px;
 }
 
-nav ul li{
+.nav-header ul li{
     display: inline-block;
     line-height: 80px;
     margin: 0 5px;
 }
 
-nav ul li a {
+.nav-header ul li a {
     color: white;
     font-size: 17px;
     text-transform: uppercase;
@@ -41,14 +41,14 @@ nav ul li a {
     text-decoration: none;
 }
 
-
-nav ul li a{
+.nav-header ul li a{
     color:  #fff;
     opacity: 1;
     font-weight: 500;
     position: relative;
 }
-nav ul li a::after{
+
+.nav-header ul li a::after{
     content: "";
     position: absolute;
     top: 100%;
@@ -59,13 +59,15 @@ nav ul li a::after{
     opacity: 0;
     transition: all 0.3s ease-in-out;
 }
-nav ul li a:hover{
+
+.nav-header ul li a:hover{
     -webkit-transform: none;
         -ms-transform: none;
             transform: none;
     color: #fff;
 }
-nav ul li a:hover::after{
+
+.nav-header ul li a:hover::after{
     opacity: 1;
     width: 100%;
 }

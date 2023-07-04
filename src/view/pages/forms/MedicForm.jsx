@@ -17,9 +17,9 @@ import { useForm, Controller } from "react-hook-form";
 import AddressForm from "./general/AddressForm";
 import PersonalDataForm from "./general/PersonalDataForm";
 import Api from "../../../services/Api";
-import { postData, updateData, defaultValues } from "./MedicFormInt"
+import { postData, updateData, defaultValues } from "./MedicFormInt";
+import Stack from '@mui/material/Stack';
 import "./form.css";
-import { getValue } from '@mui/system';
 
 
 export default ({ isUpdate }) => {
@@ -40,7 +40,7 @@ export default ({ isUpdate }) => {
 
   useEffect(() => {
 
-    async function loadFilme() {
+    async function loadData() {
       const response = await Api.get("/medico/" + crm);
 
       if (response.data.length === 0) {
@@ -63,7 +63,7 @@ export default ({ isUpdate }) => {
       setValue("cep", response.data.endereco.cep);
     }
 
-    if (isUpdate) loadFilme();
+    if (isUpdate) loadData();
 
   }, [])
 
@@ -81,53 +81,56 @@ export default ({ isUpdate }) => {
         </div>
 
         <div className="form-group">
-          <h2>Profissional</h2>
-          <Divider />
-          <Box marginTop={2} sx={{ minWidth: 120 }}>
-            <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">Especialidade</InputLabel>
-              <Controller
-                control={control}
-                name="Select"
-                render={({ field: { onChange, onBlur, value, ref } }) => (
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    variant="outlined"
-                    className={errors?.especialidade && "input-error"}
-                    disabled={isUpdate}
-                    {...register("especialidade", { validate: (value) => value !== "0" })}
-                  >
-                    <MenuItem value={"0"}>Selecione...</MenuItem>
-                    <MenuItem value={"ORTOPEDIA"}>ORTOPEDIA</MenuItem>
-                    <MenuItem value={"CARDIOLOGIA"}>CARDIOLOGIA</MenuItem>
-                    <MenuItem value={"GINECOLOGIA"}>GINECOLOGIA</MenuItem>
-                    <MenuItem value={"DERMATOLOGIA"}>DERMATOLOGIA</MenuItem>
-                  </Select>
-                )}
-              />
-            </FormControl>
-          </Box>
-          {errors?.especialidade?.type === "validate" && (
-            <p className="error-message">Especialidade é obrigatório.</p>
-          )}
+          <Stack spacing={2}>
+            <h2>Profissional</h2>
+            <Divider />
+            <Box sx={{ minWidth: 120 }}>
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Especialidade</InputLabel>
+                <Controller
+                  control={control}
+                  name="Select"
+                  render={({ field: { onChange, onBlur, value, ref } }) => (
+                    <Select
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      variant="outlined"
+                      className={errors?.especialidade && "input-error"}
+                      disabled={isUpdate}
+                      {...register("especialidade", { validate: (value) => value !== "0" })}
+                    >
+                      <MenuItem value={"0"}>Selecione...</MenuItem>
+                      <MenuItem value={"ORTOPEDIA"}>ORTOPEDIA</MenuItem>
+                      <MenuItem value={"CARDIOLOGIA"}>CARDIOLOGIA</MenuItem>
+                      <MenuItem value={"GINECOLOGIA"}>GINECOLOGIA</MenuItem>
+                      <MenuItem value={"DERMATOLOGIA"}>DERMATOLOGIA</MenuItem>
+                    </Select>
+                  )}
+                />
+              </FormControl>
+            </Box>
+            {errors?.especialidade?.type === "validate" && (
+              <p className="error-message">Especialidade é obrigatório.</p>
+            )}
 
-          <Box marginTop={2}>
-            <FormControl fullWidth>
-              <TextField
-                id="outlined-basic"
-                label={isUpdate ? "" : "CRM"}
-                variant="outlined"
-                className={errors?.crm && "input-error"}
-                type="text"
-                placeholder="Digite seu CRM..."
-                disabled={isUpdate}
-                {...register("crm", { required: true })} />
-            </FormControl>
-          </Box>
-          {errors?.crm?.type === "required" && (
-            <p className="error-message">CRM é obrigatório.</p>
-          )}
+            <Box>
+              <FormControl fullWidth>
+                <TextField
+                  id="outlined-basic"
+                  label={isUpdate ? "" : "CRM"}
+                  variant="outlined"
+                  className={errors?.crm && "input-error"}
+                  type="text"
+                  placeholder="Digite seu CRM..."
+                  disabled={isUpdate}
+                  {...register("crm", { required: true })} />
+              </FormControl>
+            </Box>
+            {errors?.crm?.type === "required" && (
+              <p className="error-message">CRM é obrigatório.</p>
+            )}
+
+          </Stack>
         </div>
 
         <div className="form-group">
@@ -135,36 +138,38 @@ export default ({ isUpdate }) => {
         </div>
 
         <div className="form-group">
-          <h2>Termo de compromisso</h2>
-          <div className='checkbox-group'>
-            <Checkbox
-              defaultChecked
-              sx={{
-                color: pink[800],
-                '&.Mui-checked': {
-                  color: pink[600],
-                },
-              }}
-              {...register("privacyTerms", {
-                validate: (value) => value === true,
-              })}
-            />
-            <label>Confirmo que as informações fornecidas estão corretas.</label>
-          </div>
-          {errors?.privacyTerms?.type === "validate" && (
-            <p className="error-message">
-              Você deve confirmar que as informações fornecidas estão corretas.
-            </p>
-          )}
+          <Stack spacing={2}>
+            <h2>Termo de compromisso</h2>
+            <div className='checkbox-group'>
+              <Checkbox
+                defaultChecked
+                sx={{
+                  color: pink[800],
+                  '&.Mui-checked': {
+                    color: pink[600],
+                  },
+                }}
+                {...register("privacyTerms", {
+                  validate: (value) => value === true,
+                })}
+              />
+              <label>Confirmo que as informações fornecidas estão corretas.</label>
+            </div>
+            {errors?.privacyTerms?.type === "validate" && (
+              <p className="error-message">
+                Você deve confirmar que as informações fornecidas estão corretas.
+              </p>
+            )}
 
-          <Fab color="primary" variant="extended" onClick={() => handleSubmit(onSubmit)()}>
-            <AddIcon sx={{ mr: 1 }} />
-            Salvar
-          </Fab>
-          <Fab color="primary" variant="extended">
-            <CleaningIcon sx={{ mr: 1 }} />
-            Limpar campos
-          </Fab>
+            <Fab color="primary" variant="extended" onClick={() => handleSubmit(onSubmit)()}>
+              <AddIcon sx={{ mr: 1 }} />
+              Salvar
+            </Fab>
+            <Fab color="primary" variant="extended">
+              <CleaningIcon sx={{ mr: 1 }} />
+              Limpar campos
+            </Fab>
+          </Stack>
         </div>
       </div>
     </>
