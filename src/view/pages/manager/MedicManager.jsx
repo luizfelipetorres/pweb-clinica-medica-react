@@ -16,6 +16,11 @@ import Fab from "@mui/material/Fab";
 import Stack from "@mui/material/Stack";
 import Pagination from "@mui/material/Pagination";
 import PaginationItem from "@mui/material/PaginationItem";
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 import Typography from "@mui/material/Typography";
 import "./manager.css";
 import PersonDetail from "./detail/PersonDetail";
@@ -28,9 +33,30 @@ export default () => {
   const query = new URLSearchParams(location.search);
   const page = parseInt(query.get("page") || "1", 10);
   const [totalPages, setTotalPages] = useState(0);
+  const [open, setOpen] = React.useState(false);
 
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
+  };
+
+  const handleClickOpen = (crm) => {
+    setOpen((prevState) => ({
+      ...prevState,
+      [crm]: true,
+    }));
+  };
+
+  const handleClose = (crm) => {
+    setOpen((prevState) => ({
+      ...prevState,
+      [crm]: false,
+    }));
+  };
+
+  const handleDisableMedic = async (crm) => {
+    await Api.delete("/medico/"+crm);    
+    window.location.reload();
+    setOpen(false);
   };
 
   useEffect(() => {
@@ -74,9 +100,35 @@ export default () => {
                         Editar
                       </Button>
                     </Link>
-                    <Button variant="contained" endIcon={<SendIcon />}>
+                    <Button variant="contained" onClick={() => handleClickOpen(item.crm)}  endIcon={<SendIcon />}>
                       Desativar perfil
                     </Button>
+
+                    <Dialog
+                      open={open[item.crm]}
+                      onClose={() => handleClose(item.crm)}
+                      PaperProps={{ style: { boxShadow: 'none', border: '2px solid #ccc' } }}
+                      slotProps={{ backdrop: { style: { backgroundColor: 'rgba(0, 0, 0, 0.1)', backdropFilter: 'blur(5px)' } } }}
+                      >
+                      <DialogTitle color="primary" id="alert-dialog-title">
+                        Deseja desativar este perfil ?
+                      </DialogTitle>
+                      <DialogContent>
+                        <Box textAlign="center" my={1}>
+                          <DialogContentText id="alert-dialog-description">
+                              Ao desativar o perfil, as informações de <Typography variant="body1" component="span" fontWeight="bold">{item.nome} </Typography> 
+                              com o crm <Typography variant="body1" component="span" fontWeight="bold"> {item.crm} </Typography>  serão desabilitadas e não estarão disponíveis para futuras consultas.
+                          </DialogContentText>
+                        </Box>
+                      </DialogContent>
+
+                      <DialogActions>
+                        <Button variant="contained" onClick={() => handleClose(item.crm)} autoFocus>
+                          cancelar
+                        </Button>
+                        <Button variant="outlined" onClick={() => handleDisableMedic(item.crm)}>Desativar este perfil</Button>
+                      </DialogActions>
+                    </Dialog>
                   </Stack>
                 </AccordionDetails>
               </Accordion>
