@@ -11,6 +11,7 @@ import Appointment from "./view/pages/appointment/Appointment";
 
 export default () => {
   return (
+    <main className="content">
     <Routes>
       <Route path="/medic/form-put/:crm" element={<MedicForm isUpdate={true}/>} />
       <Route path="/medic/form-post" element={<MedicForm isUpdate={false}/>} />
@@ -24,5 +25,6 @@ export default () => {
       <Route path="/" element={<Home />} />
       <Route path="*" element={<ErrorPage />} />
     </Routes>
+    </main>
   );
 };

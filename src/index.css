@@ -30,3 +30,6 @@
     padding: 20px;
   }
   
+  .content{
+    min-height: 80vh;
+  }
