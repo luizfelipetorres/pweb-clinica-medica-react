@@ -8,7 +8,12 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  FormControlLabel,
+  FormLabel,
+  InputLabel,
   Pagination,
+  Radio,
+  RadioGroup,
 } from "@mui/material";
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
@@ -29,6 +34,7 @@ import { toast } from "react-toastify";
 import Api from "../../../services/Api";
 import PersonalData from "./detail/PersonDetail";
 import "./manager.css";
+import { FormControl, MenuItem, Select } from "@mui/base";
 
 export default (props) => {
   const { register, handleSubmit } = useForm();
@@ -39,6 +45,7 @@ export default (props) => {
   const page = parseInt(query.get("page") || "1", 10);
   const [totalPages, setTotalPages] = useState(0);
   const [open, setOpen] = useState(false);
+  const [reason, setReason] = useState(null);
 
   const handleClickOpen = (id) => {
     console.log(id);
@@ -60,13 +67,12 @@ export default (props) => {
     await Api.delete("/consulta", {
       data: {
         consultaId: id,
-        motivo: "OUTROS",
+        motivo: reason,
       },
     })
       .then((result) => {
         toast.success("Consulta deletada com sucesso! ");
-        loadData()
-        ;
+        loadData();
       })
       .catch((error) => toast.error(error.response.data.detalhes));
     setOpen(false);
@@ -81,8 +87,7 @@ export default (props) => {
     setAppointments(response.data.content);
     setTotalPages(response.data.totalPages);
   }
-  useEffect( () => {
-
+  useEffect(() => {
     loadData();
   }, [page]);
 
@@ -182,7 +187,7 @@ export default (props) => {
                   }}
                 >
                   <DialogTitle color="primary" id="alert-dialog-title">
-                    Deseja desativar este perfil ?
+                    Cancelamento de consulta
                   </DialogTitle>
                   <DialogContent>
                     <Box textAlign="center" my={1}>
@@ -205,6 +210,36 @@ export default (props) => {
                           {medico.nome}{" "}
                         </Typography>
                         ?
+                        <FormControl>
+                          <FormLabel sx={{mt: 2}} id="demo-radio-buttons-group-label">
+                            Motivo
+                          </FormLabel>
+                          <RadioGroup
+                            aria-labelledby="demo-radio-buttons-group-label"
+                            defaultValue="female"
+                            name="radio-buttons-group"
+                            onChange={(event, value) => {
+                              console.log(value)
+                              setReason(value)
+                            }}
+                          >
+                            <FormControlLabel
+                              value="PACIENTE_DESISTIU"
+                              control={<Radio />}
+                              label="Paciente desistiu"
+                            />
+                            <FormControlLabel
+                              value="MEDICO_CANCELOU"
+                              control={<Radio />}
+                              label="Médico cancelou"
+                            />
+                            <FormControlLabel
+                              value="OUTROS"
+                              control={<Radio />}
+                              label="Outros"
+                            />
+                          </RadioGroup>
+                        </FormControl>
                       </DialogContentText>
                     </Box>
                   </DialogContent>
@@ -244,8 +279,6 @@ export default (props) => {
               )}
             />
           </Box>
-
-      
         </Stack>
       </div>
     </>
